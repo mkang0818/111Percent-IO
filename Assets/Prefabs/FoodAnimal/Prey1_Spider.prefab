@@ -684,10 +684,10 @@ GameObject:
   - component: {fileID: 4526922656412250}
   - component: {fileID: 95289141023610228}
   - component: {fileID: -5330746236288511366}
+  - component: {fileID: -3179267849316687167}
   - component: {fileID: 2730663003115128468}
   - component: {fileID: -4629315341673687454}
   - component: {fileID: 3177169431393643039}
-  - component: {fileID: -3179267849316687167}
   m_Layer: 0
   m_Name: Prey1_Spider
   m_TagString: PreyAni
@@ -759,6 +759,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!65 &-3179267849316687167
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469455994664124}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.29, y: 0.5, z: 0.34}
+  m_Center: {x: 0, y: 0.24, z: 0}
 --- !u!195 &2730663003115128468
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -768,7 +781,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1469455994664124}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -804,6 +817,8 @@ MonoBehaviour:
   AniCode: 1
   wanderRadius: 10
   wanderTimer: 5
+  target: {fileID: 0}
+  state: 0
 --- !u!114 &3177169431393643039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,19 +831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8a9f9fbfd923346a325d9b7096ffd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &-3179267849316687167
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469455994664124}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.29, y: 0.5, z: 0.34}
-  m_Center: {x: 0, y: 0.24, z: 0}
 --- !u!1 &1488910226879100
 GameObject:
   m_ObjectHideFlags: 0

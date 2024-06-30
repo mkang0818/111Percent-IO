@@ -1492,9 +1492,9 @@ GameObject:
   - component: {fileID: 4743866166799928}
   - component: {fileID: 95745281577807448}
   - component: {fileID: -8388586181809737828}
+  - component: {fileID: 6109416812905881649}
   - component: {fileID: -6271976816576583243}
   - component: {fileID: 4916254728700907263}
-  - component: {fileID: 6109416812905881649}
   - component: {fileID: -2409712733105299066}
   m_Layer: 0
   m_Name: Prey2_Lizard
@@ -1512,7 +1512,7 @@ Transform:
   m_GameObject: {fileID: 1519499871649260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4603492517565844}
@@ -1562,6 +1562,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!65 &6109416812905881649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519499871649260}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.11, y: 0.11, z: 0.33}
+  m_Center: {x: 0, y: 0.04, z: 0}
 --- !u!195 &-6271976816576583243
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1571,7 +1584,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1519499871649260}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1607,19 +1620,8 @@ MonoBehaviour:
   AniCode: 2
   wanderRadius: 10
   wanderTimer: 5
---- !u!65 &6109416812905881649
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519499871649260}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.11, y: 0.11, z: 0.33}
-  m_Center: {x: 0, y: 0.04, z: 0}
+  target: {fileID: 0}
+  state: 0
 --- !u!114 &-2409712733105299066
 MonoBehaviour:
   m_ObjectHideFlags: 0

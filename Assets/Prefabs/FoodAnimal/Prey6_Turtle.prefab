@@ -731,10 +731,10 @@ GameObject:
   - component: {fileID: 4103696530261632}
   - component: {fileID: 95987637689215624}
   - component: {fileID: -8262981807112686580}
+  - component: {fileID: 5975277246840692915}
   - component: {fileID: -6417705834128474851}
   - component: {fileID: 716607444417281245}
   - component: {fileID: -5592087626380446386}
-  - component: {fileID: 5975277246840692915}
   m_Layer: 0
   m_Name: Prey6_Turtle
   m_TagString: PreyAni
@@ -751,7 +751,7 @@ Transform:
   m_GameObject: {fileID: 1601167407944880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4465902201197242}
@@ -800,6 +800,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!65 &5975277246840692915
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601167407944880}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &-6417705834128474851
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -809,7 +822,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1601167407944880}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -842,9 +855,11 @@ MonoBehaviour:
     Speed: 0
     MaxExp: 0
     CurExp: 0
-  AniCode: 
+  AniCode: 6
   wanderRadius: 10
   wanderTimer: 5
+  target: {fileID: 0}
+  state: 0
 --- !u!114 &-5592087626380446386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,19 +872,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8a9f9fbfd923346a325d9b7096ffd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &5975277246840692915
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601167407944880}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1630226044988138
 GameObject:
   m_ObjectHideFlags: 0

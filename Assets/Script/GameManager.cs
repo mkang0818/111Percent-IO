@@ -59,9 +59,9 @@ public class GameManager : MonoBehaviour
         yield return www.SendWebRequest();
         StatData = www.downloadHandler.text;
         print(StatData);
-        PlayerInitStat(StatData);
+        PlayerInitStat(StatData, "1");
     }
-    void PlayerInitStat(string tsv)
+    public void PlayerInitStat(string tsv, string AniCode)
     {
         string[] row = tsv.Split("\n");
         int rowSize = row.Length;
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
             string[] column = row[i].Split("\t");
             for (int j = 0; j < columnSize; j++)
             {
-                if (column[0] == "1")
+                if (column[0] == AniCode)
                 {
                     player.playerstat.Lv = int.Parse(column[0]);
                     player.playerstat.Name = column[1];

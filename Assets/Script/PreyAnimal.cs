@@ -24,6 +24,7 @@ public enum State
 public class PreyAnimal : MonoBehaviour
 {
     Animator anim;
+    Rigidbody rigid;
 
     [HideInInspector]
     public PreyStat stat;
@@ -34,9 +35,9 @@ public class PreyAnimal : MonoBehaviour
 
     private NavMeshAgent agent;
     private float timer;
-    private Transform target;
+    [HideInInspector] public Transform target;
 
-    private State state;
+    public State state;
     void Start()
     {
         target = GameManager.Instance.player.gameObject.transform;
@@ -45,41 +46,59 @@ public class PreyAnimal : MonoBehaviour
         agent.speed = stat.Speed;
         timer = wanderTimer;
         anim = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        print("먹잇감 레벨 : "+stat.Lv);
+        //print("먹잇감 레벨 : "+stat.Lv);
         //print(stat.Name);
         //print(stat.HP);
         //print(stat.At);
         //print(stat.MaxExp);
         //print(stat.CurExp);
-        find();
+
         switch (state)
         {
             case State.Move:
                 //print("이동 중");
                 Movement();
+                find();
                 break;
 
             case State.Find:
                 //print("발견발견");
-                agent.SetDestination(target.position);
+                //agent.SetDestination(target.position);
+                find();
+                break;
+
+            case State.Follow:
+                follow();
                 break;
         }
         
     }
-    private void Movement()
+    private void follow()
     {
-        timer += Time.deltaTime;
+        //print("따라가기");
+        agent.isStopped = true;
+        // 타겟 방향 계산
+        Vector3 direction = (target.position - transform.position).normalized;
 
-        if (timer >= wanderTimer)
-        {
-            Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-            agent.SetDestination(newPos);
-            timer = 0;
-        }
+        // 이동 벡터 계산
+        Vector3 moveVector = direction * stat.Speed * Time.deltaTime;
+
+        // 새로운 위치 계산
+        Vector3 newPosition = transform.position + moveVector;
+
+        // 오브젝트를 새로운 위치로 이동
+        transform.position = newPosition;
+
+        // 타겟 방향으로 회전
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 8);
+
+        rigid.isKinematic = true;
     }
     private void find()
     {
@@ -91,6 +110,18 @@ public class PreyAnimal : MonoBehaviour
         else
         {
             state = State.Move;
+        }
+    }
+
+    private void Movement()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= wanderTimer)
+        {
+            Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+            agent.SetDestination(newPos);
+            timer = 0;
         }
     }
 

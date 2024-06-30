@@ -1040,10 +1040,10 @@ GameObject:
   - component: {fileID: 4503016261973594}
   - component: {fileID: 95589725239481556}
   - component: {fileID: 2393066187399474174}
+  - component: {fileID: 5785906442245753298}
   - component: {fileID: -7966339758873905994}
   - component: {fileID: 7192559435252127384}
   - component: {fileID: -8629421549555826432}
-  - component: {fileID: 5785906442245753298}
   m_Layer: 0
   m_Name: Prey9_Horse
   m_TagString: PreyAni
@@ -1060,7 +1060,7 @@ Transform:
   m_GameObject: {fileID: 1514975477636432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4600420669824602}
@@ -1104,6 +1104,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!65 &5785906442245753298
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514975477636432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &-7966339758873905994
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1113,7 +1126,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1514975477636432}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1146,9 +1159,11 @@ MonoBehaviour:
     Speed: 0
     MaxExp: 0
     CurExp: 0
-  AniCode: 
+  AniCode: 9
   wanderRadius: 10
   wanderTimer: 5
+  target: {fileID: 0}
+  state: 0
 --- !u!114 &-8629421549555826432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,19 +1176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8a9f9fbfd923346a325d9b7096ffd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &5785906442245753298
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514975477636432}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1559427192197488
 GameObject:
   m_ObjectHideFlags: 0

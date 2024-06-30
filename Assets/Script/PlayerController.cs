@@ -16,40 +16,72 @@ public class AnimalStat
 
 public class PlayerController : MonoBehaviour
 {
+    public float Range;
+
+    public GameObject[] AnimalArr;
+
     [HideInInspector]
     public AnimalStat playerstat;
 
     private VariableJoystick joy;
-    public float speed;
 
     Rigidbody rigid;
     Animator anim;
     Vector3 moveVec;
 
+    GameObject CurrentAnimal;
+    [HideInInspector] public List<GameObject> AllyList;
+    public Transform[] FollowPos;
     void Start()
     {
         joy = GameManager.Instance.Joystick;
         playerstat = new AnimalStat();
-        rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
 
-
+        CurrentAnimal = Instantiate(AnimalArr[0], transform);
+        CurrentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정
     }
 
     // Update is called once per frame
     void Update()
     {
         Movement();
+        LvUp();
     }
     private void LateUpdate()
     {
         //애니메이션
-        print("현재 레벨 : " + playerstat.Lv);
-        print("현재 이름 : " + playerstat.Name);
-        print("현재 체력 : " + playerstat.HP);
-        print("현재 공격력 : " + playerstat.At);
+        //print("현재 레벨 : " + playerstat.Lv);
+        //print("현재 이름 : " + playerstat.Name);
+        //print("현재 체력 : " + playerstat.HP);
+        //print("현재 공격력 : " + playerstat.At);
         //print(stat.MaxExp);
         //print(stat.CurExp);
+    }
+    public void Upgrade()
+    {
+        foreach (GameObject ally in AllyList)
+        {
+            Destroy(ally);
+        }
+        AllyList.Clear();
+        Destroy(CurrentAnimal);
+        int index = playerstat.Lv;
+        CurrentAnimal = Instantiate(AnimalArr[index], transform);
+        CurrentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정
+
+        //스탯 초기화
+        string SheetTxt = GameManager.Instance.StatData;
+        print(index+1);
+        GameManager.Instance.PlayerInitStat(SheetTxt, (index+1).ToString());
+    }
+    void LvUp()
+    {
+        if (playerstat.CurExp >= playerstat.MaxExp)
+        {
+            //print("레벨업");
+        }
     }
     void Movement()
     {
@@ -80,44 +112,5 @@ public class PlayerController : MonoBehaviour
             // 캐릭터 회전
             rigid.MoveRotation(moveQuat);
         }
-    }
-
-
-    private void OnCollisionEnter(Collision col)
-    {
-        if (col.transform.CompareTag("PreyAni"))
-        {
-            Vibration.Vibrate(1000);
-            print("충돌");
-            aa(col.gameObject);
-        }
-    }
-
-    void aa(GameObject col)
-    {
-        PreyAnimal prey = col.gameObject.GetComponent<PreyAnimal>();
-        int Lv = prey.stat.Lv;
-
-        // 같은 종류 동물과 충돌 시
-        if (Lv == playerstat.Lv)
-        {
-            // 아군으로 자리 이동
-            print("공격력증가");
-            playerstat.At += prey.stat.At;
-        }
-        //다른 종류 동물과 충돌 시
-        else
-        {
-            if (prey.stat.At > playerstat.At)
-            {
-                print("체력 감소");
-            }
-            else if (prey.stat.At < playerstat.At)
-            {
-                print("경험치 증가");
-            }
-        }
-
-        Destroy(col.gameObject);
     }
 }
