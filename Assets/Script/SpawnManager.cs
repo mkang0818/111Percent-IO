@@ -27,6 +27,7 @@ public class SpawnManager : MonoBehaviour
         {
             // 동물 생성
             int rand = Random.Range(lv, lv + 2);
+            //코끼리일때 배열 벗어남
             var preyObj = PoolManager.instance.GetGo(EnemyText[rand]);
             //print(preyObj);
 

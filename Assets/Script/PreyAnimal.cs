@@ -12,7 +12,7 @@ public class PreyStat
     public string Name = "";
     public float MaxHP = 0;
     public float CurHP = 0;
-    public int At = 0;
+    public long At = 0;
     public int Speed = 0;
     public int MaxExp = 0;
     public int CurExp = 0;
@@ -47,7 +47,7 @@ public class PreyAnimal : MonoBehaviour
         target = GameManager.Instance.player.gameObject.transform;
         state = State.Move;
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = stat.Speed;
+        agent.speed = stat.Speed * 0.8f;
         timer = wanderTimer;
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
@@ -88,12 +88,12 @@ public class PreyAnimal : MonoBehaviour
     }
     void texta()
     {
-        int playerAt = target.gameObject.GetComponent<PlayerController>().playerstat.At;
+        long playerAt = target.gameObject.GetComponent<PlayerController>().playerstat.At;
         if (stat.At < playerAt)
         {
             AtText.color = Color.green;
         }
-        else if (stat.At > playerAt)
+        else if (stat.At >= playerAt)
         {
             AtText.color = Color.red;
         }

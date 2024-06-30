@@ -78,6 +78,7 @@ public class AnimalController : MonoBehaviour
             if (prey.stat.At > playerController.playerstat.At)
             {
                 print("체력 감소");
+                playerController.playerstat.CurHP -= prey.stat.Lv;
                 Destroy(col.gameObject);
 
             }
@@ -93,6 +94,8 @@ public class AnimalController : MonoBehaviour
         {
             // 체력 회복
             print("체력회복");
+            playerController.playerstat.CurHP += prey.stat.Lv;
+            Destroy(col.gameObject);
         }
     }
 }

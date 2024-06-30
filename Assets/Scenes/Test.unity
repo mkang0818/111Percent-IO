@@ -228,7 +228,7 @@ Transform:
   m_GameObject: {fileID: 597651835}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -405,7 +405,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1819811697}
   m_LocalRotation: {x: 0.49659526, y: 0, z: 0, w: 0.86798227}
-  m_LocalPosition: {x: 0, y: 40.2, z: -17.5}
+  m_LocalPosition: {x: 0, y: 50.7, z: -27.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -423,13 +423,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey9_Horse
       objectReference: {fileID: 0}
+    - target: {fileID: 1514975477636432, guid: 1a3158cd9ec7e4a4387b5174c0f54bd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4503016261973594, guid: 1a3158cd9ec7e4a4387b5174c0f54bd7, type: 3}
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4503016261973594, guid: 1a3158cd9ec7e4a4387b5174c0f54bd7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4503016261973594, guid: 1a3158cd9ec7e4a4387b5174c0f54bd7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -480,13 +484,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey6_Turtle
       objectReference: {fileID: 0}
+    - target: {fileID: 1601167407944880, guid: f92b9fd7609100d4ab5f342377c5c819, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4103696530261632, guid: f92b9fd7609100d4ab5f342377c5c819, type: 3}
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4103696530261632, guid: f92b9fd7609100d4ab5f342377c5c819, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.95
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4103696530261632, guid: f92b9fd7609100d4ab5f342377c5c819, type: 3}
       propertyPath: m_LocalPosition.y
@@ -537,13 +545,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey7_Dragon
       objectReference: {fileID: 0}
+    - target: {fileID: 1380609312295414, guid: 39af1a7a93e89844398a14341b17120c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4283514309804722, guid: 39af1a7a93e89844398a14341b17120c, type: 3}
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4283514309804722, guid: 39af1a7a93e89844398a14341b17120c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4283514309804722, guid: 39af1a7a93e89844398a14341b17120c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -594,13 +606,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey4_Cat
       objectReference: {fileID: 0}
+    - target: {fileID: 1487649244598836, guid: dc12351e58d880a4fbe49ea0c4eb1b61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4386940456628446, guid: dc12351e58d880a4fbe49ea0c4eb1b61, type: 3}
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4386940456628446, guid: dc12351e58d880a4fbe49ea0c4eb1b61, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -50.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4386940456628446, guid: dc12351e58d880a4fbe49ea0c4eb1b61, type: 3}
       propertyPath: m_LocalPosition.y
@@ -651,13 +667,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey13_Boar
       objectReference: {fileID: 0}
+    - target: {fileID: 1281212599284066, guid: 46b8b22451fd7c045b75f4a90409ede7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4643965324660154, guid: 46b8b22451fd7c045b75f4a90409ede7, type: 3}
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4643965324660154, guid: 46b8b22451fd7c045b75f4a90409ede7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4643965324660154, guid: 46b8b22451fd7c045b75f4a90409ede7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -708,13 +728,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey12_Buffalo
       objectReference: {fileID: 0}
+    - target: {fileID: 1051157094305240, guid: c0a5e9952f692bd4296e8af97bdcf16c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4382299673415616, guid: c0a5e9952f692bd4296e8af97bdcf16c, type: 3}
       propertyPath: m_RootOrder
       value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4382299673415616, guid: c0a5e9952f692bd4296e8af97bdcf16c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.94
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4382299673415616, guid: c0a5e9952f692bd4296e8af97bdcf16c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -765,13 +789,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey14_Tiger
       objectReference: {fileID: 0}
+    - target: {fileID: 1799965832759594, guid: b99e8ef839fbd434281f99f5c9e01853, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4695555382118244, guid: b99e8ef839fbd434281f99f5c9e01853, type: 3}
       propertyPath: m_RootOrder
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4695555382118244, guid: b99e8ef839fbd434281f99f5c9e01853, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4695555382118244, guid: b99e8ef839fbd434281f99f5c9e01853, type: 3}
       propertyPath: m_LocalPosition.y
@@ -822,13 +850,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey3_Chick
       objectReference: {fileID: 0}
+    - target: {fileID: 1112124496423278, guid: 36e026b3183a5a74dbf25bda8a8357e6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4732782224720092, guid: 36e026b3183a5a74dbf25bda8a8357e6, type: 3}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4732782224720092, guid: 36e026b3183a5a74dbf25bda8a8357e6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.82
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4732782224720092, guid: 36e026b3183a5a74dbf25bda8a8357e6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -879,13 +911,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey5_Dog
       objectReference: {fileID: 0}
+    - target: {fileID: 1850243185622332, guid: 9bdb600a611bd3e4e82af4512888486c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4840984129802262, guid: 9bdb600a611bd3e4e82af4512888486c, type: 3}
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4840984129802262, guid: 9bdb600a611bd3e4e82af4512888486c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4840984129802262, guid: 9bdb600a611bd3e4e82af4512888486c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -936,13 +972,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey15_Rhinoceros
       objectReference: {fileID: 0}
+    - target: {fileID: 1537276721336590, guid: ce76ba2319ef4694b958da214d6bd0ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4407002151619572, guid: ce76ba2319ef4694b958da214d6bd0ec, type: 3}
       propertyPath: m_RootOrder
       value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4407002151619572, guid: ce76ba2319ef4694b958da214d6bd0ec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4407002151619572, guid: ce76ba2319ef4694b958da214d6bd0ec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -993,13 +1033,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey10_Zebra
       objectReference: {fileID: 0}
+    - target: {fileID: 1152423970083012, guid: 33d687424cf9c3c4b8f5a973624a6b9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4333188539823908, guid: 33d687424cf9c3c4b8f5a973624a6b9e, type: 3}
       propertyPath: m_RootOrder
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4333188539823908, guid: 33d687424cf9c3c4b8f5a973624a6b9e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4333188539823908, guid: 33d687424cf9c3c4b8f5a973624a6b9e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1050,13 +1094,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey8_Pig
       objectReference: {fileID: 0}
+    - target: {fileID: 1905525985821456, guid: f2f6ff1af9668a14e8bbac7e207e4475, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4560836745313654, guid: f2f6ff1af9668a14e8bbac7e207e4475, type: 3}
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4560836745313654, guid: f2f6ff1af9668a14e8bbac7e207e4475, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4560836745313654, guid: f2f6ff1af9668a14e8bbac7e207e4475, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1107,13 +1155,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey2_Lizard
       objectReference: {fileID: 0}
+    - target: {fileID: 1519499871649260, guid: 4fb7b1eab1a0e8c40b45a5422573fac6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4743866166799928, guid: 4fb7b1eab1a0e8c40b45a5422573fac6, type: 3}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4743866166799928, guid: 4fb7b1eab1a0e8c40b45a5422573fac6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4743866166799928, guid: 4fb7b1eab1a0e8c40b45a5422573fac6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1163,6 +1215,10 @@ PrefabInstance:
     - target: {fileID: 1014789747999944, guid: 442ff3a16806007479becaeed8241292, type: 3}
       propertyPath: m_Name
       value: Prey16_Elephant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014789747999944, guid: 442ff3a16806007479becaeed8241292, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4864296859349792, guid: 442ff3a16806007479becaeed8241292, type: 3}
       propertyPath: m_RootOrder
@@ -1221,13 +1277,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey11_Leopard
       objectReference: {fileID: 0}
+    - target: {fileID: 1697340506704546, guid: 8def0da3f2f67c24da1ea7b0c0a7cc69, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4901223826357240, guid: 8def0da3f2f67c24da1ea7b0c0a7cc69, type: 3}
       propertyPath: m_RootOrder
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4901223826357240, guid: 8def0da3f2f67c24da1ea7b0c0a7cc69, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4901223826357240, guid: 8def0da3f2f67c24da1ea7b0c0a7cc69, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1277,6 +1337,10 @@ PrefabInstance:
     - target: {fileID: 1469455994664124, guid: 8f77d081757cc69428ce1ba41a5bcd53, type: 3}
       propertyPath: m_Name
       value: Prey1_Spider
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469455994664124, guid: 8f77d081757cc69428ce1ba41a5bcd53, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4526922656412250, guid: 8f77d081757cc69428ce1ba41a5bcd53, type: 3}
       propertyPath: m_RootOrder

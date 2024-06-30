@@ -9,7 +9,7 @@ public class AnimalStat
     public string Name = "";
     public float MaxHP = 0;
     public float CurHP = 0;
-    public int At = 0;
+    public long At = 0;
     public int Speed = 0;
     public int MaxExp = 0;
     public int CurExp = 0;

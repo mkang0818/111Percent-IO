@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
                     player.playerstat.Name = column[1];
                     player.playerstat.MaxHP = int.Parse(column[2]);
                     player.playerstat.CurHP = int.Parse(column[3]);
-                    player.playerstat.At = int.Parse(column[4]);
+                    player.playerstat.At = long.Parse(column[4]);
                     player.playerstat.Speed = int.Parse(column[5]);
                     player.playerstat.MaxExp = int.Parse(column[6]);
                     player.playerstat.CurExp = int.Parse(column[7]);
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
                     prey.stat.Name = column[1];
                     prey.stat.MaxHP = int.Parse(column[2]);
                     prey.stat.CurHP = int.Parse(column[3]);
-                    prey.stat.At = int.Parse(column[4]);
+                    prey.stat.At = long.Parse(column[4]);
                     prey.stat.Speed = int.Parse(column[5]);
                     prey.stat.MaxExp = int.Parse(column[6]);
                     prey.stat.CurExp = int.Parse(column[7]);

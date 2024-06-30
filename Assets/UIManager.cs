@@ -19,13 +19,11 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.Instance.player;
-        gameUI.hpBar.value = (float)player.playerstat.CurHP / (float)player.playerstat.MaxHP;
     }
     private void Update()
     {
         player = GameManager.Instance.player;
-        gameUI.hpBar.value = (float)player.playerstat.CurHP / (float)player.playerstat.MaxHP;
+        if(player != null) gameUI.hpBar.value = (float)player.playerstat.CurHP / (float)player.playerstat.MaxHP;
         //print(gameUI.hpBar.value);
     }
 }
