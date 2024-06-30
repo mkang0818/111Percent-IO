@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
             {
                 print("체력 감소");
             }
-            else if(prey.stat.At < playerstat.At)
+            else if (prey.stat.At < playerstat.At)
             {
                 print("경험치 증가");
             }

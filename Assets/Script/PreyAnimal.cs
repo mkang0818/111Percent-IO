@@ -18,10 +18,13 @@ public class PreyStat
 public enum State
 {
     Move,
-    Find
+    Find,
+    Follow
 }
 public class PreyAnimal : MonoBehaviour
 {
+    Animator anim;
+
     [HideInInspector]
     public PreyStat stat;
     public string AniCode;
@@ -41,6 +44,7 @@ public class PreyAnimal : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = stat.Speed;
         timer = wanderTimer;
+        anim = GetComponent<Animator>();
     }
 
     void Update()

@@ -373,7 +373,7 @@ Animator:
   m_GameObject: {fileID: 1152423970083012}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 97c860ce75281384ab01eb5d6f8fb29c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 4641f855806857444a1ba1de848e4586, type: 2}
+  m_Controller: {fileID: 22100000, guid: f678af6e1106c2e4ba6fd3dfb827c2b8, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -438,6 +438,7 @@ MonoBehaviour:
     Name: 
     HP: 0
     At: 0
+    Speed: 0
     MaxExp: 0
     CurExp: 0
   AniCode: 
