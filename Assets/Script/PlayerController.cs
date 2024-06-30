@@ -7,7 +7,8 @@ public class AnimalStat
 {
     public int Lv = 0;
     public string Name = "";
-    public int HP = 0;
+    public float MaxHP = 0;
+    public float CurHP = 0;
     public int At = 0;
     public int Speed = 0;
     public int MaxExp = 0;
@@ -31,7 +32,8 @@ public class PlayerController : MonoBehaviour
 
     GameObject CurrentAnimal;
     [HideInInspector] public List<GameObject> AllyList;
-    public Transform[] FollowPos;
+
+
     void Start()
     {
         joy = GameManager.Instance.Joystick;
@@ -46,15 +48,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerstat.CurHP -= Time.deltaTime / 2;
+
         Movement();
         LvUp();
+        Dead();
     }
     private void LateUpdate()
     {
         //애니메이션
         //print("현재 레벨 : " + playerstat.Lv);
         //print("현재 이름 : " + playerstat.Name);
-        //print("현재 체력 : " + playerstat.HP);
+        //print("현재 체력 : " + playerstat.CurHP);
         //print("현재 공격력 : " + playerstat.At);
         //print(stat.MaxExp);
         //print(stat.CurExp);
@@ -81,6 +86,13 @@ public class PlayerController : MonoBehaviour
         if (playerstat.CurExp >= playerstat.MaxExp)
         {
             //print("레벨업");
+        }
+    }
+    void Dead()
+    {
+        if (playerstat.CurHP <= 0)
+        {
+            print("DEADEADEADADEDAEDADEADAEDAEDEA");
         }
     }
     void Movement()

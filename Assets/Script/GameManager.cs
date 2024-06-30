@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
-    const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:G17";
+    const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:H17";
     [HideInInspector] public string StatData;
     public VariableJoystick Joystick;
     public GameObject StartAni;
@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance;
 
+
+    public int PlayerLv;
     Vector3 spawnPos = new Vector3(0, 0.1f, 0);
 
     public static GameManager Instance
@@ -49,6 +51,10 @@ public class GameManager : MonoBehaviour
     {
         GameStart();
     }
+    private void Update()
+    {
+        PlayerLv = player.playerstat.Lv;
+    }
     public void GameStart()
     {
         StartCoroutine(www());
@@ -76,11 +82,12 @@ public class GameManager : MonoBehaviour
                 {
                     player.playerstat.Lv = int.Parse(column[0]);
                     player.playerstat.Name = column[1];
-                    player.playerstat.HP = int.Parse(column[2]);
-                    player.playerstat.At = int.Parse(column[3]);
-                    player.playerstat.Speed = int.Parse(column[4]);
-                    player.playerstat.MaxExp = int.Parse(column[5]);
-                    player.playerstat.CurExp = int.Parse(column[6]);
+                    player.playerstat.MaxHP = int.Parse(column[2]);
+                    player.playerstat.CurHP = int.Parse(column[3]);
+                    player.playerstat.At = int.Parse(column[4]);
+                    player.playerstat.Speed = int.Parse(column[5]);
+                    player.playerstat.MaxExp = int.Parse(column[6]);
+                    player.playerstat.CurExp = int.Parse(column[7]);
                 }
             }
         }
@@ -101,11 +108,12 @@ public class GameManager : MonoBehaviour
                 {
                     prey.stat.Lv = int.Parse(column[0]);
                     prey.stat.Name = column[1];
-                    prey.stat.HP = int.Parse(column[2]);
-                    prey.stat.At = int.Parse(column[3]);
-                    prey.stat.Speed = int.Parse(column[4]);
-                    prey.stat.MaxExp = int.Parse(column[5]);
-                    prey.stat.CurExp = int.Parse(column[6]);
+                    prey.stat.MaxHP = int.Parse(column[2]);
+                    prey.stat.CurHP = int.Parse(column[3]);
+                    prey.stat.At = int.Parse(column[4]);
+                    prey.stat.Speed = int.Parse(column[5]);
+                    prey.stat.MaxExp = int.Parse(column[6]);
+                    prey.stat.CurExp = int.Parse(column[7]);
                 }
             }
         }

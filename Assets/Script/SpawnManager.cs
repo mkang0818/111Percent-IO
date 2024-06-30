@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public string EnemyText = "Prey_Lv1";
+    public string[] EnemyText;
+    public float[] spawnTime;
+    public int[] SpawnPosSize;
+
+    private int lv;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,26 +18,32 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        lv = GameManager.Instance.PlayerLv - 1;
     }
     IEnumerator spawnPrey()
     {
         yield return new WaitForSeconds(2);
         while (true)
         {
-            var preyObj = PoolManager.instance.GetGo(EnemyText);
+            // 동물 생성
+            int rand = Random.Range(lv, lv + 2);
+            var preyObj = PoolManager.instance.GetGo(EnemyText[rand]);
             //print(preyObj);
-            float Xpos = Random.Range(-5, 5);
-            float Zpos = Random.Range(-5, 5);
-            Vector3 spawnPos = new Vector3(Xpos, 0.1f, Zpos);
+
+            // 생성한 동물 스폰좌표 설정
+            float Xpos = Random.Range(-SpawnPosSize[lv], SpawnPosSize[lv]);
+            float Zpos = Random.Range(-SpawnPosSize[lv], SpawnPosSize[lv]);
+            Vector3 spawnPos = new Vector3(preyObj.transform.position.x + Xpos, 0.1f, preyObj.transform.position.z + Zpos);
             preyObj.transform.position = spawnPos;
 
+            // 생성한 동물 스탯 적용
             string SheetTxt = GameManager.Instance.StatData;
             PreyAnimal prey = preyObj.GetComponent<PreyAnimal>();
             GameManager.Instance.PreyInitStat(SheetTxt, prey.AniCode, prey);
 
             //print("생성");
-            yield return new WaitForSeconds(1);
+            //print(EnemyText[rand] +":"+ spawnTime[rand]);
+            yield return new WaitForSeconds(spawnTime[rand]);
         }
     }
 }

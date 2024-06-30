@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 
 [System.Serializable]
@@ -9,7 +10,8 @@ public class PreyStat
 {
     public int Lv = 0;
     public string Name = "";
-    public int HP = 0;
+    public float MaxHP = 0;
+    public float CurHP = 0;
     public int At = 0;
     public int Speed = 0;
     public int MaxExp = 0;
@@ -23,6 +25,8 @@ public enum State
 }
 public class PreyAnimal : MonoBehaviour
 {
+    public TextMeshProUGUI AtText;
+
     Animator anim;
     Rigidbody rigid;
 
@@ -30,8 +34,8 @@ public class PreyAnimal : MonoBehaviour
     public PreyStat stat;
     public string AniCode;
 
-    public float wanderRadius = 10f; // 랜덤 이동 반경
-    public float wanderTimer = 5f; // 목적지 변경 주기
+    public float wanderRadius = 50f; // 랜덤 이동 반경
+    public float wanderTimer = 3; // 목적지 변경 주기
 
     private NavMeshAgent agent;
     private float timer;
@@ -58,25 +62,46 @@ public class PreyAnimal : MonoBehaviour
         //print(stat.MaxExp);
         //print(stat.CurExp);
 
+
         switch (state)
         {
             case State.Move:
                 //print("이동 중");
                 Movement();
                 find();
+                texta();
                 break;
 
             case State.Find:
                 //print("발견발견");
                 //agent.SetDestination(target.position);
                 find();
+                texta();
                 break;
 
             case State.Follow:
+                AtText.text = "";
                 follow();
                 break;
         }
         
+    }
+    void texta()
+    {
+        int playerAt = target.gameObject.GetComponent<PlayerController>().playerstat.At;
+        if (stat.At < playerAt)
+        {
+            AtText.color = Color.green;
+        }
+        else if (stat.At > playerAt)
+        {
+            AtText.color = Color.red;
+        }
+        else
+        {
+            AtText.color = Color.white;
+        }
+        AtText.text = stat.At.ToString();
     }
     private void follow()
     {
@@ -96,7 +121,7 @@ public class PreyAnimal : MonoBehaviour
 
         // 타겟 방향으로 회전
         Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 8);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 8.5f);
 
         rigid.isKinematic = true;
     }

@@ -1,14 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class AnimalController : MonoBehaviour
 {
+    public TextMeshProUGUI AttackText;
+
     Rigidbody rigid;
 
     // 참조할 부모 오브젝트 (플레이어 오브젝트)
     private GameObject playerObject;
     private PlayerController playerController;
+
+    // 동물의 크기가 커질 수록 FollowPos 또한 늘어나야함
+    public Transform[] FollowPos;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
@@ -18,9 +25,21 @@ public class AnimalController : MonoBehaviour
         playerController = playerObject.GetComponent<PlayerController>();
 
         // 부모 오브젝트 스탯 초기화
-    }
 
+    }
+    private void Update()
+    {
+        AttackText.text = playerController.playerstat.At.ToString();
+    }
     private void OnCollisionEnter(Collision col)
+    {
+        if (col.transform.CompareTag("PreyAni"))
+        {
+            Vibration.Vibrate(1000);
+            aa(col.gameObject);
+        }
+    }
+    private void OnTriggerEnter(Collider col)
     {
         if (col.transform.CompareTag("PreyAni"))
         {
@@ -49,12 +68,12 @@ public class AnimalController : MonoBehaviour
 
             prey.gameObject.tag = "Player";
 
-            int index = playerController.AllyList.Count;
+            int index = playerController.AllyList.Count+1;
             print(index);
-            prey.target = playerController.FollowPos[index];
+            prey.target = FollowPos[index];
         }
         //강한 동물과 충돌 시
-        else if (Lv > playerController.playerstat.Lv)
+        else if (Lv >= playerController.playerstat.Lv)
         {
             if (prey.stat.At > playerController.playerstat.At)
             {
@@ -64,14 +83,13 @@ public class AnimalController : MonoBehaviour
             }
             else if (prey.stat.At < playerController.playerstat.At)
             {
-                print("다른 동물로 성장");
-
+                //print("다른 동물로 성장");
                 playerController.Upgrade();
                 Destroy(col.gameObject);
             }
         }
         //약한 동물과 충돌 시
-        else if (Lv < playerController.playerstat.Lv) 
+        else if (Lv <= playerController.playerstat.Lv) 
         {
             // 체력 회복
             print("체력회복");
