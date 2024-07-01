@@ -11,6 +11,8 @@ public class CountDown : MonoBehaviour
         TextScale = transform.localScale;
         CountTextOn();
     }
+
+    // 카운트다운 애니메이션
     public void CountTextOn()
     {
         transform.DOScale(new Vector3(TextScale.x * 2, TextScale.y * 2, TextScale.z * 2), 0.5f);

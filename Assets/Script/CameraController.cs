@@ -11,18 +11,16 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        // 카메라 타겟 설정
         if (GameManager.Instance.IsStart)
         {
             target = GameManager.Instance.player.gameObject;
         }
 
-
-        print(GameManager.Instance.PlayerLv);
+        // 카메라 타겟 움직임
         int CamIndex = GameManager.Instance.PlayerLv - 1;
-
         if (target != null && CamIndex >= 0)
         {
-            print(CamIndex);
             transform.position = target.transform.position + TargetCamArr[CamIndex];
         }
     }

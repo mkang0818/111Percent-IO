@@ -8,7 +8,6 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-
     [System.Serializable]
     private class MainUI
     {
@@ -21,8 +20,16 @@ public class UIManager : MonoBehaviour
     private class GameUI
     {
         public GameObject gameUI;
-        public Slider hpBar;
+        public Slider GoalSlider;
         public TextMeshProUGUI CountDownText;
+        public TextMeshProUGUI TimerText;
+        public TextMeshProUGUI ScoreText;
+
+        public TextMeshProUGUI InfoAniName;
+        public Image InfoAniImg;
+
+        public Sprite[] AnimalSpr;
+        public string[] AnimalName;
     }
     [SerializeField] private GameUI gameUI;
 
@@ -32,29 +39,33 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        GameHPBar();
+        GameUIUpdate();
     }
-    void GameHPBar()
+
+    // 인 게임 UI 업데이트
+    void GameUIUpdate()
     {
-        if (player != null && GameManager.Instance.IsStart)
+        if (GameManager.Instance.IsStart && GameManager.Instance.GETSheet)
         {
-            player = GameManager.Instance.player;
-            if (player != null) gameUI.hpBar.value = (float)player.playerstat.CurHP / (float)player.playerstat.MaxHP;
-            //print(gameUI.hpBar.value);
+            InfoUpdate();
         }
     }
 
-    public void GameStart()
+    // 게임 시작 버튼
+    public void GameStartBt()
     {
+        GameManager.Instance.IsStart = true;
+
+        GameManager.Instance.PlayerIns();
+
         mainUI.mainUI.SetActive(false);
         gameUI.gameUI.SetActive(true);
 
-        GameManager.Instance.PlayerIns();
-        GameManager.Instance.IsStart = true;
-
+        GameManager.Instance.player.goalSlider = gameUI.GoalSlider;
         StartCoroutine(StartCountdown());
     }
 
+    // 카운트 다운
     IEnumerator StartCountdown()
     {
         int countdown = 3;
@@ -72,5 +83,28 @@ public class UIManager : MonoBehaviour
         print("게임시작 !");
         GameManager.Instance.player.PlayerStart = true;
         spawnmanager.SpawnStart();
+    }
+
+    // 다음 레벨의 동물 정보 UI
+    void InfoUpdate()
+    {
+        int playerLv = GameManager.Instance.PlayerLv;       // 현재 플레이어 레벨
+        gameUI.InfoAniName.text = gameUI.AnimalName[playerLv];  // 다음 레벨의 동물 이름
+        //gameUI.InfoAniImg.sprite = gameUI.AnimalSpr[playerLv];  // 다음 레벨의 동물 이미지
+
+        // 남은 시간 텍스트
+        int CurTime = Mathf.RoundToInt(GameManager.Instance.player.playerstat.TimeLimit);
+        gameUI.TimerText.text = TimerText(CurTime);
+        
+        gameUI.ScoreText.text = GameManager.Instance.FormatNumber(GameManager.Instance.Score) + " / " + GameManager.Instance.FormatNumber(GameManager.Instance.goalScore[playerLv - 1]);
+    }
+
+    // 제한 시간 텍스트
+    string TimerText(int CurTime)
+    {
+        int minutes = CurTime / 60;
+        int seconds = CurTime % 60;
+        string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
+        return formattedTime;
     }
 }

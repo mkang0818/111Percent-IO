@@ -8,10 +8,9 @@ using TMPro;
 [System.Serializable]
 public class PreyStat
 {
-    public int Lv = 0;
+    public int Lv = 1;
     public string Name = "";
-    public float MaxHP = 0;
-    public float CurHP = 0;
+    public float TimeLimit = 0;
     public long At = 0;
     public int Speed = 0;
     public int MaxExp = 0;
@@ -20,7 +19,6 @@ public class PreyStat
 public enum State
 {
     Move,
-    Find,
     Follow
 }
 public class PreyAnimal : MonoBehaviour
@@ -41,12 +39,15 @@ public class PreyAnimal : MonoBehaviour
     private float timer;
     [HideInInspector] public Transform target;
 
+    public GameObject RoundVFX;
     public State state;
+
     void Start()
     {
         component();
     }
 
+    // 컴포넌트 초기화
     void component()
     {
         target = GameManager.Instance.player.gameObject.transform;
@@ -56,7 +57,7 @@ public class PreyAnimal : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
 
         state = State.Move;
-        agent.speed = stat.Speed * 0.8f;
+        agent.speed = stat.Speed * 0.3f;
         timer = wanderTimer;
     }
 
@@ -70,9 +71,9 @@ public class PreyAnimal : MonoBehaviour
         //print(stat.CurExp);
 
         StateMotion();
-
-
     }
+
+    // 상태 구현
     void StateMotion()
     {
         switch (state)
@@ -80,14 +81,6 @@ public class PreyAnimal : MonoBehaviour
             case State.Move:
                 //print("이동 중");
                 Movement();
-                find();
-                texta();
-                break;
-
-            case State.Find:
-                //print("발견발견");
-                //agent.SetDestination(target.position);
-                find();
                 texta();
                 break;
 
@@ -97,6 +90,8 @@ public class PreyAnimal : MonoBehaviour
                 break;
         }
     }
+
+    // 공격력 텍스트 업데이트
     void texta()
     {
         long playerAt = target.gameObject.GetComponent<PlayerController>().playerstat.At;
@@ -114,9 +109,12 @@ public class PreyAnimal : MonoBehaviour
         }
         AtText.text = GameManager.Instance.FormatNumber(stat.At);
     }
+
+    // 플레이어 
     private void follow()
     {
-        //print("따라가기");
+        anim.SetBool("IsRun",true);
+
         agent.isStopped = true;
         // 타겟 방향 계산
         Vector3 direction = (target.position - transform.position).normalized;
@@ -136,24 +134,13 @@ public class PreyAnimal : MonoBehaviour
 
         rigid.isKinematic = true;
     }
-    private void find()
-    {
-        float Dis = Vector3.Distance(target.position ,transform.position);
-        if (Dis < 1)
-        {
-            state = State.Find;
-        }
-        else
-        {
-            state = State.Move;
-        }
-    }
 
+    // 자동 이동 구현
     private void Movement()
     {
         timer += Time.deltaTime;
 
-        if (timer >= wanderTimer)
+        if (timer >= wanderTimer || agent.remainingDistance <= agent.stoppingDistance)
         {
             Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
             agent.SetDestination(newPos);
@@ -161,6 +148,7 @@ public class PreyAnimal : MonoBehaviour
         }
     }
 
+    // 무작위 이동 좌표 탐색
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {
         Vector3 randDirection = Random.insideUnitSphere * dist;

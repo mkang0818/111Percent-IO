@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class AnimalStat
 {
-    public int Lv = 0;
+    public int Lv = 1;
     public string Name = "";
-    public float MaxHP = 0;
-    public float CurHP = 0;
+    public float TimeLimit = 0;
     public long At = 0;
     public int Speed = 0;
     public int MaxExp = 0;
@@ -21,29 +21,29 @@ public class PlayerController : MonoBehaviour
 
     public GameObject[] AnimalArr;
 
-    [HideInInspector]
-    public AnimalStat playerstat;
-
-    private FloatingJoystick joy;
-
     Rigidbody rigid;
-    Animator anim;
     Vector3 moveVec;
 
     GameObject CurrentAnimal;
+    [HideInInspector] public AnimalStat playerstat;
     [HideInInspector] public List<GameObject> AllyList;
+    [HideInInspector] public Slider goalSlider;
+    private FloatingJoystick joy;
 
     public GameObject UpgradeVFX;
-    public GameObject AllyText;
-    public GameObject DamageText;
-    public GameObject HeelText;
 
+    public int[] UpgradeTime;
     public bool PlayerStart = false;
+
+    private float MinX = -86.4f;
+    private float MaxX = 67f;
+    private float MinZ = -90.3f;
+    private float MaxZ = 70.9f;
+
     void Start()
     {
         joy = GameManager.Instance.Joystick;
         playerstat = new AnimalStat();
-        anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
 
         CurrentAnimal = Instantiate(AnimalArr[0], transform);
@@ -55,11 +55,15 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerStart)
         {
-            playerstat.CurHP -= Time.deltaTime / 2;
-
+            playerstat.TimeLimit -= Time.deltaTime;
+            
+            Doundary();
             Movement();
             LvUp();
             Dead();
+
+
+            goalSlider.value = (float)GameManager.Instance.Score / (float)GameManager.Instance.goalScore[playerstat.Lv - 1];
         }
     }
     private void LateUpdate()
@@ -72,6 +76,33 @@ public class PlayerController : MonoBehaviour
         //print(stat.MaxExp);
         //print(stat.CurExp);
     }
+
+    // 맵 범위 밖 이동 제한
+    void Doundary()
+    {
+        Vector3 CurPos = transform.position;
+
+        if (CurPos.x < MinX)
+        {
+            CurPos.x = MinX;
+        }
+        else if (CurPos.x > MaxX)
+        {
+            CurPos.x = MaxX;
+        }
+
+        if (CurPos.z < MinZ)
+        {
+            CurPos.z = MinZ;
+        }
+        else if (CurPos.z > MaxZ)
+        {
+            CurPos.z = MaxZ;
+        }
+        transform.position = CurPos;
+    }
+
+    // 다음 레벨 업그레이드
     public void Upgrade()
     {
         foreach (GameObject ally in AllyList)
@@ -86,28 +117,34 @@ public class PlayerController : MonoBehaviour
 
         //스탯 초기화
         string SheetTxt = GameManager.Instance.StatData;
-        print(index + 1);
         GameManager.Instance.PlayerInitStat(SheetTxt, (index + 1).ToString());
 
         // 업그레이드 이펙트
         UpgradeVFX.transform.localScale = new Vector3(index, index, index);
         Instantiate(UpgradeVFX, transform);
     }
+
+    // 레벨 업그레이드
     void LvUp()
     {
-        if (playerstat.CurExp >= playerstat.MaxExp)
+        if (GameManager.Instance.Score >= GameManager.Instance.goalScore[playerstat.Lv - 1])
         {
-            //print("레벨업");
+            print("업그레이드");
+            Upgrade();
         }
     }
+
+    // 게임 오버
     void Dead()
     {
-        if (playerstat.CurHP <= 0)
+        if (playerstat.TimeLimit <= 0)
         {
-            print("DEADEADEADADEDAEDADEADAEDAEDEA");
+            print("DEAD");
             PlayerStart = false;
         }
     }
+
+    // 플레이어 이동 구현
     void Movement()
     {
         float x = joy.Horizontal;

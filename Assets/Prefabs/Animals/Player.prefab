@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8561681736735075458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.01, z: 0}
+  m_LocalPosition: {x: 0, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -89,7 +89,10 @@ MonoBehaviour:
     MaxExp: 0
     CurExp: 0
   AllyList: []
+  goalSlider: {fileID: 0}
   UpgradeVFX: {fileID: 380284327063089880, guid: ed82a7b18ecbbf14e88ed139ccef11f5, type: 3}
   AllyText: {fileID: 1728986881204927453, guid: 1e731da42bbd5024ba87a2e64f5e3872, type: 3}
   DamageText: {fileID: 1728986881204927453, guid: fa7191e0e520c254ca8ecb9366043008, type: 3}
   HeelText: {fileID: 1728986881204927453, guid: f9f6ab6171a48db499fd03a387767ca3, type: 3}
+  UpgradeTime: 1e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e000000
+  PlayerStart: 0

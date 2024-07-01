@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class TextVFX : MonoBehaviour
 {
     private Vector3 TextScale;
+
+    public TextMeshProUGUI ValueText;
+    public string Value;
     private void Start()
     {
+        ValueText.text = Value;
         TextScale = transform.localScale;
         DamageTextOn();
     }
-    void down()
-    {
-        transform.DOScale(new Vector3(TextScale.x, TextScale.y, TextScale.z), 0.5f);
-    }
+
+
+    // 이펙트 텍스트 애니메이션
     public void DamageTextOn()
     {
         float RandScale = Random.Range(1.3f, 2);
@@ -22,6 +26,11 @@ public class TextVFX : MonoBehaviour
         Invoke("down", 0.5f);
         Invoke("ReturnText", 1f);
     }
+    void down()
+    {
+        transform.DOScale(new Vector3(TextScale.x, TextScale.y, TextScale.z), 0.5f);
+    }
+    
     void ReturnText()
     {
         Destroy(gameObject);
