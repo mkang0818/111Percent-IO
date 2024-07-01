@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:H17";
     
 
-    public VariableJoystick Joystick;
+    public FloatingJoystick Joystick;
     public GameObject StartAni;
 
     [HideInInspector] public PlayerController player;
@@ -117,6 +117,22 @@ public class GameManager : MonoBehaviour
                     prey.stat.CurExp = int.Parse(column[7]);
                 }
             }
+        }
+    }
+
+    public string FormatNumber(long number)
+    {
+        if (number >= 1_000_000_000)
+        {
+            return (number / 1_000_000_000D).ToString("0.##") + "B";
+        }
+        else if (number >= 1_000_000)
+        {
+            return (number / 1_000_000D).ToString("0.##") + "M";
+        }
+        else
+        {
+            return number.ToString("N0");
         }
     }
 }

@@ -101,7 +101,7 @@ public class PreyAnimal : MonoBehaviour
         {
             AtText.color = Color.white;
         }
-        AtText.text = stat.At.ToString();
+        AtText.text = GameManager.Instance.FormatNumber(stat.At);
     }
     private void follow()
     {
@@ -168,4 +168,6 @@ public class PreyAnimal : MonoBehaviour
         Gizmos.color = Color.red;
         //Gizmos.DrawSphere(transform.position,1);
     }
+
+
 }

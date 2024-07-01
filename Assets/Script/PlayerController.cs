@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public AnimalStat playerstat;
 
-    private VariableJoystick joy;
+    private FloatingJoystick joy;
 
     Rigidbody rigid;
     Animator anim;
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public GameObject UpgradeVFX;
     public GameObject AllyText;
     public GameObject DamageText;
+    public GameObject HeelText;
     void Start()
     {
         joy = GameManager.Instance.Joystick;

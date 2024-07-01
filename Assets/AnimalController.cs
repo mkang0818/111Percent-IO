@@ -24,7 +24,7 @@ public class AnimalController : MonoBehaviour
     }
     private void Update()
     {
-        AttackText.text = playerController.playerstat.At.ToString();
+        AttackText.text = GameManager.Instance.FormatNumber(playerController.playerstat.At); 
     }
     private void OnTriggerEnter(Collider col)
     {
@@ -70,7 +70,7 @@ public class AnimalController : MonoBehaviour
             {
                 print("체력 감소");
                 playerController.playerstat.CurHP -= prey.stat.Lv;
-                DamageTextVFX(prey.stat.Lv);
+                DamageTextVFX(playerController.DamageText, prey.stat.Lv);
                 Destroy(col.gameObject);
             }
             else if (prey.stat.At < playerController.playerstat.At)
@@ -86,28 +86,33 @@ public class AnimalController : MonoBehaviour
             // 체력 회복
             print("체력회복");
             playerController.playerstat.CurHP += prey.stat.Lv;
-            DamageTextVFX(prey.stat.Lv);
+            DamageTextVFX(playerController.HeelText, prey.stat.Lv);
             Destroy(col.gameObject);
         }
     }
 
-    void DamageTextVFX(float Value)
+    void DamageTextVFX(GameObject VFXText, float Value)
     {
         Vector3 playerPos = playerController.transform.position;
-        Vector3 spawnPos = new Vector3(playerPos.x, playerPos.y+ playerController.playerstat.Lv, playerPos.z);
-        GameObject damageVFX = Instantiate(playerController.DamageText, spawnPos,Quaternion.identity);
-        damageVFX.transform.localScale = new Vector3(playerController.playerstat.Lv, playerController.playerstat.Lv, playerController.playerstat.Lv);
+        int Xrand = Random.Range(-playerController.playerstat.Lv/2, playerController.playerstat.Lv/2);
+        Vector3 spawnPos = new Vector3(playerPos.x + Xrand, playerPos.y + playerController.playerstat.Lv, playerPos.z);
 
-        Transform canvasTransform = playerController.DamageText.transform.Find("Canvas");
-        canvasTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "-" + Value.ToString();
+        GameObject damageVFX = Instantiate(VFXText, spawnPos,Quaternion.identity);
+
+        damageVFX.transform.localScale = new Vector3(playerController.playerstat.Lv, playerController.playerstat.Lv, playerController.playerstat.Lv);
+        Transform canvasTransform = VFXText.transform.Find("Canvas");
+        canvasTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Value.ToString();
     }
-    void AllyTextVFX(float Value)
+    void AllyTextVFX(long Value)
     {
+        int Xrand = Random.Range(-playerController.playerstat.Lv / 2, playerController.playerstat.Lv / 2);
         Vector3 playerPos = playerController.transform.position;
-        Vector3 spawnPos = new Vector3(playerPos.x, playerPos.y + playerController.playerstat.Lv, playerPos.z);
+        Vector3 spawnPos = new Vector3(playerPos.x + Xrand, playerPos.y + playerController.playerstat.Lv, playerPos.z);
+
         GameObject AllyVFX = Instantiate(playerController.AllyText, spawnPos, Quaternion.identity);
+
         AllyVFX.transform.localScale = new Vector3(playerController.playerstat.Lv, playerController.playerstat.Lv, playerController.playerstat.Lv);
         Transform canvasTransform = playerController.AllyText.transform.Find("Canvas");
-        canvasTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "+" + Value.ToString();
+        canvasTransform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "+" + GameManager.Instance.FormatNumber(Value);
     }
 }
