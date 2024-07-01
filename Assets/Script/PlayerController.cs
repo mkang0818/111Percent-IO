@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public GameObject AllyText;
     public GameObject DamageText;
     public GameObject HeelText;
+
+    public bool PlayerStart = false;
     void Start()
     {
         joy = GameManager.Instance.Joystick;
@@ -45,17 +47,20 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
 
         CurrentAnimal = Instantiate(AnimalArr[0], transform);
-        CurrentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정
+        CurrentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정        
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerstat.CurHP -= Time.deltaTime / 2;
+        if (PlayerStart)
+        {
+            playerstat.CurHP -= Time.deltaTime / 2;
 
-        Movement();
-        LvUp();
-        Dead();
+            Movement();
+            LvUp();
+            Dead();
+        }
     }
     private void LateUpdate()
     {
@@ -81,12 +86,12 @@ public class PlayerController : MonoBehaviour
 
         //스탯 초기화
         string SheetTxt = GameManager.Instance.StatData;
-        print(index+1);
-        GameManager.Instance.PlayerInitStat(SheetTxt, (index+1).ToString());
+        print(index + 1);
+        GameManager.Instance.PlayerInitStat(SheetTxt, (index + 1).ToString());
 
         // 업그레이드 이펙트
         UpgradeVFX.transform.localScale = new Vector3(index, index, index);
-        Instantiate(UpgradeVFX,transform);
+        Instantiate(UpgradeVFX, transform);
     }
     void LvUp()
     {
@@ -100,6 +105,7 @@ public class PlayerController : MonoBehaviour
         if (playerstat.CurHP <= 0)
         {
             print("DEADEADEADADEDAEDADEADAEDAEDEA");
+            PlayerStart = false;
         }
     }
     void Movement()

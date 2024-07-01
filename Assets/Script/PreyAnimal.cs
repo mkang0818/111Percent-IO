@@ -44,13 +44,20 @@ public class PreyAnimal : MonoBehaviour
     public State state;
     void Start()
     {
+        component();
+    }
+
+    void component()
+    {
         target = GameManager.Instance.player.gameObject.transform;
-        state = State.Move;
+
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = stat.Speed * 0.8f;
-        timer = wanderTimer;
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
+
+        state = State.Move;
+        agent.speed = stat.Speed * 0.8f;
+        timer = wanderTimer;
     }
 
     void Update()
@@ -62,7 +69,12 @@ public class PreyAnimal : MonoBehaviour
         //print(stat.MaxExp);
         //print(stat.CurExp);
 
+        StateMotion();
 
+
+    }
+    void StateMotion()
+    {
         switch (state)
         {
             case State.Move:
@@ -84,7 +96,6 @@ public class PreyAnimal : MonoBehaviour
                 follow();
                 break;
         }
-        
     }
     void texta()
     {
@@ -162,12 +173,4 @@ public class PreyAnimal : MonoBehaviour
 
         return navHit.position;
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        //Gizmos.DrawSphere(transform.position,1);
-    }
-
-
 }

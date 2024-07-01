@@ -9,16 +9,14 @@ public class CameraController : MonoBehaviour
     public Vector3[] TargetCamArr;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        target = GameManager.Instance.player.gameObject;
-    }
-
-
-    // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.IsStart)
+        {
+            target = GameManager.Instance.player.gameObject;
+        }
+
+
         print(GameManager.Instance.PlayerLv);
         int CamIndex = GameManager.Instance.PlayerLv - 1;
 

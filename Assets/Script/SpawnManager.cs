@@ -9,16 +9,25 @@ public class SpawnManager : MonoBehaviour
     public int[] SpawnPosSize;
 
     private int lv;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("spawnPrey");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        lv = GameManager.Instance.PlayerLv - 1;
+        if (GameManager.Instance.IsStart)
+        {
+            lv = GameManager.Instance.PlayerLv - 1;
+        }
+    }
+    public void SpawnStart()
+    {
+        StartCoroutine("spawnPrey");
     }
     IEnumerator spawnPrey()
     {

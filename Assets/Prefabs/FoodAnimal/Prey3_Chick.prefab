@@ -169,8 +169,8 @@ MonoBehaviour:
     MaxExp: 0
     CurExp: 0
   AniCode: 3
-  wanderRadius: 10
-  wanderTimer: 1
+  wanderRadius: 20
+  wanderTimer: 5
   target: {fileID: 0}
   state: 0
 --- !u!114 &-6419953407966088154

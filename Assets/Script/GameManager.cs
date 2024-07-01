@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public int PlayerLv;
     Vector3 spawnPos = new Vector3(0, 0.1f, 0);
 
-
+    public bool IsStart = false;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                // 씬에 GameManager가 없으면 새로 생성
                 GameObject singleton = new GameObject(typeof(GameManager).ToString());
                 _instance = singleton.AddComponent<GameManager>();
                 DontDestroyOnLoad(singleton);
@@ -37,30 +36,27 @@ public class GameManager : MonoBehaviour
     }
     void Awake()
     {
-        player = Instantiate(StartAni, spawnPos, Quaternion.identity).GetComponent<PlayerController>();
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject); // 씬 로드 시 삭제되지 않도록 설정
+            DontDestroyOnLoad(gameObject);
         }
         else if (_instance != this)
         {
-            Destroy(gameObject); // 싱글톤 인스턴스가 이미 존재하면 중복된 오브젝트 삭제
+            Destroy(gameObject);
         }
     }
-    private void Start()
-    {
-        GameStart();
-    }
+
     private void Update()
     {
-        PlayerLv = player.playerstat.Lv;
+        if(player!= null) PlayerLv = player.playerstat.Lv;
     }
-    public void GameStart()
+    public void PlayerIns()
     {
-        StartCoroutine(www());
+        player = Instantiate(StartAni, spawnPos, Quaternion.identity).GetComponent<PlayerController>();
+        StartCoroutine(GetSheet());
     }
-    IEnumerator www()
+    IEnumerator GetSheet()
     {
         UnityWebRequest www = UnityWebRequest.Get(URL);
         yield return www.SendWebRequest();

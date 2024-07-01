@@ -85,7 +85,9 @@ public class AnimalController : MonoBehaviour
         {
             // 체력 회복
             print("체력회복");
+            
             playerController.playerstat.CurHP += prey.stat.Lv;
+
             DamageTextVFX(playerController.HeelText, prey.stat.Lv);
             Destroy(col.gameObject);
         }
