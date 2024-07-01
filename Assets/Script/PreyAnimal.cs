@@ -93,7 +93,7 @@ public class PreyAnimal : MonoBehaviour
         {
             AtText.color = Color.green;
         }
-        else if (stat.At >= playerAt)
+        else if (stat.At > playerAt)
         {
             AtText.color = Color.red;
         }

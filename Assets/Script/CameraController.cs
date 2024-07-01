@@ -18,12 +18,12 @@ public class CameraController : MonoBehaviour
     {
         if (target != null)
         {
-            //transform.position = target.transform.position + offset;
-
             print(GameManager.Instance.PlayerLv);
             int CamIndex = GameManager.Instance.PlayerLv - 1;
             print(CamIndex);
             transform.position = target.transform.position + TargetCamArr[CamIndex];
         }
     }
+
+
 }

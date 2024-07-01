@@ -33,7 +33,9 @@ public class PlayerController : MonoBehaviour
     GameObject CurrentAnimal;
     [HideInInspector] public List<GameObject> AllyList;
 
-
+    public GameObject UpgradeVFX;
+    public GameObject AllyText;
+    public GameObject DamageText;
     void Start()
     {
         joy = GameManager.Instance.Joystick;
@@ -80,6 +82,10 @@ public class PlayerController : MonoBehaviour
         string SheetTxt = GameManager.Instance.StatData;
         print(index+1);
         GameManager.Instance.PlayerInitStat(SheetTxt, (index+1).ToString());
+
+        // 업그레이드 이펙트
+        UpgradeVFX.transform.localScale = new Vector3(index, index, index);
+        Instantiate(UpgradeVFX,transform);
     }
     void LvUp()
     {

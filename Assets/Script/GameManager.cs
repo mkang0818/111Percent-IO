@@ -7,19 +7,20 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
-    const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:H17";
     [HideInInspector] public string StatData;
+    const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:H17";
+    
+
     public VariableJoystick Joystick;
     public GameObject StartAni;
 
     [HideInInspector] public PlayerController player;
-
-    private static GameManager _instance;
-
-
     public int PlayerLv;
     Vector3 spawnPos = new Vector3(0, 0.1f, 0);
 
+
+
+    private static GameManager _instance;
     public static GameManager Instance
     {
         get
