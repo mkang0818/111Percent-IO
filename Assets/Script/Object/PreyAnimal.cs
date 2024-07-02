@@ -10,30 +10,28 @@ public class PreyStat
 {
     public int Lv = 1;
     public string Name = "";
-    public long At = 0;
+    public double At = 0;
     public int Speed = 0;
 }
 
 public class PreyAnimal : MonoBehaviour
 {
-    public TextMeshProUGUI AtText;
+    private NavMeshAgent agent;
 
+    public TextMeshProUGUI AtText;
     [HideInInspector] public Transform target;
-    [HideInInspector]
-    public PreyStat stat;
-    public string AniCode;
+    [HideInInspector] public PreyStat stat;
+
+    public string AniCode; // 코드를 통해 스프레드시트 스탯 부여
 
     public float FindRadius = 50f; // 랜덤 이동 반경
     public float FindTimer = 3; // 목적지 변경 주기
-
-    private NavMeshAgent agent;
     private float timer;
 
 
-    // 컴포넌트 초기화
+    // 오브젝트 풀로 활성화되어 타겟 및 컴포넌트 초기화
     public void componentInit()
     {
-        tag = "PreyAni";
         target = GameManager.Instance.player.gameObject.transform;
 
         agent = GetComponent<NavMeshAgent>();
@@ -46,16 +44,17 @@ public class PreyAnimal : MonoBehaviour
     {
         if (GameManager.Instance.IsStart)
         {
-            Movement();
-            texta();
+            Movement(); // 자동 이동 메서드
+            AttackText(); // 공격력 텍스트 업데이트
         }
     }
 
 
     // 공격력 텍스트 업데이트
-    void texta()
+    void AttackText()
     {
-        long playerAt = target.gameObject.GetComponent<PlayerController>().playerstat.At;
+        double playerAt = target.gameObject.GetComponent<PlayerController>().playerstat.At;
+        
         if (stat.At < playerAt)
         {
             AtText.color = Color.green;
@@ -68,6 +67,7 @@ public class PreyAnimal : MonoBehaviour
         {
             AtText.color = Color.white;
         }
+
         AtText.text = GameManager.Instance.FormatNumber(stat.At);
     }
 

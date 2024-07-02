@@ -15,6 +15,7 @@ public class AnimalController : MonoBehaviour
     string EatVFX = "EatVFX";
     string PlusText = "PlusText";
     string TimerText = "TimerText";
+
     void Start()
     {
         // 부모 오브젝트 설정
@@ -22,90 +23,90 @@ public class AnimalController : MonoBehaviour
         playerController = playerObject.GetComponent<PlayerController>();
         anim = GetComponent<Animator>();
     }
+
     private void Update()
     {
-        AttackText.text = GameManager.Instance.FormatNumber(playerController.playerstat.At);
-        anim.SetBool("IsRun", true);
+        AttackText.text = GameManager.Instance.FormatNumber(playerController.playerstat.At); // 공격력 텍스트 업데이트
+        anim.SetBool("IsRun", true); // 애니메이션 작동
     }
+
+
     private void OnTriggerEnter(Collider col)
     {
-        // 먹이 오브젝트와 충돌 시
+        // Prey오브젝트와 충돌 시
         if (col.transform.CompareTag("PreyAni"))
         {
-            Vibration.Vibrate(1000);
+            Vibration.Vibrate(1000); // 1초간 진동
             AnimalCollision(col.gameObject);
         }
     }
 
-    // 동물 오브젝트 충돌 시 
+    // 충돌 오브젝트 상태에 따라 구현
     void AnimalCollision(GameObject col)
     {
         PreyAnimal prey = col.gameObject.GetComponent<PreyAnimal>();
         int Lv = prey.stat.Lv;
-        int playerlv = playerController.playerstat.Lv;
 
-        // 같은 종류 동물과 충돌 시
-        if (Lv == playerController.playerstat.Lv && playerController.playerstat.At >= prey.stat.At)
+
+        // 1. 같은 레벨과 충돌, 2. 높은 레벨과 충돌, 낮은 레벨과 충돌
+
+        // 같은 종 동물과 충돌
+        if (Lv == playerController.playerstat.Lv)
         {
-            // 아군으로 자리 이동
-            print("공격력증가");
             SoundManager.Instance.SoundPlay("Eat", playerController.EatSound);
             
-            playerController.playerstat.At += prey.stat.At;
+            playerController.playerstat.At += prey.stat.At; // 공격력 증가
+            GameManager.Instance.Score += Lv; // 점수 획득
+            ValueText(PlusText, Lv); // 텍스트 이펙트 생성
 
-            GameManager.Instance.Score += Lv;
-            ValueText(PlusText, Lv);
-            prey.gameObject.tag = "Player";
-
-            col.GetComponent<PoolObj>().ReleaseObject();
+            col.GetComponent<PoolObj>().ReleaseObject(); // 오브젝트 풀 반환
         }
-        //강한 동물과 충돌 시
+        // 높은 레벨 동물과 충돌
         else if (Lv >= playerController.playerstat.Lv)
         {
-            if (prey.stat.At > playerController.playerstat.At)
+            if (prey.stat.At > playerController.playerstat.At) // 높은 레벨보다 약할 때
             {
-                print("강한 동물한테 공격받음");
                 SoundManager.Instance.SoundPlay("Damage", playerController.DamageSound);
 
                 // 공격받을 시 2초 시간 감소
                 int minusTime = 2;
                 GameManager.Instance.CurTime -= minusTime;
 
+                // 이펙트 생성 및 크기 설정
                 ValueText(TimerText, minusTime);
                 Setsize(prey.stat.Lv, EatVFX);
                 col.GetComponent<PoolObj>().ReleaseObject();
             }
-            else if (prey.stat.At <= playerController.playerstat.At)
+            else if (prey.stat.At <= playerController.playerstat.At)  // 높은 레벨보다 강할 때
             {
-                print("강한 동물 공격 성공");
                 SoundManager.Instance.SoundPlay("Eat", playerController.EatSound);
 
-                playerController.playerstat.At += prey.stat.At;
+                playerController.playerstat.At += prey.stat.At; // 공격력 증가
                 GameManager.Instance.Score += Lv;
 
+                // 이펙트 생성 및 크기 설정
                 ValueText(PlusText, Lv);
                 Setsize(prey.stat.Lv, EatVFX);
                 col.GetComponent<PoolObj>().ReleaseObject();
             }
-            else if (GameManager.Instance.Score >= GameManager.Instance.goalScore[prey.stat.Lv])
+            else if (GameManager.Instance.Score >= GameManager.Instance.goalScore[prey.stat.Lv])  // 높은 레벨보다 약할 때
             {
-
+                //????????????????????
                 print("다음 동물로 성장");
                 SoundManager.Instance.SoundPlay("Upgrade", playerController.UpgradeSound);
                 playerController.Upgrade();
                 Destroy(col.gameObject);
             }
         }
-        //약한 동물과 충돌 시
+        // 낮은 레벨 동물과 충돌
         else if (Lv <= playerController.playerstat.Lv)
         {
-            print("공격력 증가");
             SoundManager.Instance.SoundPlay("Eat", playerController.EatSound);
-            playerController.playerstat.At += prey.stat.At;
 
-            print("점수 획득");
-            GameManager.Instance.Score += Lv;
+            playerController.playerstat.At += prey.stat.At; // 공격력 증가
+            GameManager.Instance.Score += Lv; // 점수 획득
 
+            // 이펙트 생성 및 크기 설정
             ValueText(PlusText, Lv);
             Setsize(prey.stat.Lv, EatVFX);
             col.GetComponent<PoolObj>().ReleaseObject();
@@ -119,18 +120,22 @@ public class AnimalController : MonoBehaviour
         float size = index * 0.1f;
         Effect.transform.localScale = new Vector3(size, size, size);
         Effect.transform.position = transform.position;
-        Effect.GetComponent<VFXController>().ReleaseObj();
+        Effect.GetComponent<VFXController>().ReleaseObj(); // 풀 오브젝트 반환
     }
 
 
-    // 텍스트 생성
-    void ValueText(string TextName, long Value)
+    // 텍스트이펙트 생성
+    void ValueText(string TextName, double Value)
     {
+        // 이펙트 좌표 설정
         Vector3 playerPos = playerController.transform.position;
         int Xrand = Random.Range(-playerController.playerstat.Lv / 4, playerController.playerstat.Lv / 4);
         Vector3 spawnPos = new Vector3(playerPos.x + Xrand, playerPos.y + playerController.playerstat.Lv, playerPos.z);
 
+        // 이펙트 오브젝트 풀 활성화
         GameObject TextObj = PoolManager.instance.GetGo(TextName);
+
+        // 이펙트 좌표, Text 설정
         TextObj.transform.position = spawnPos;
         TextObj.GetComponent<TextVFX>().Value = GameManager.Instance.FormatNumber(Value);
         TextObj.GetComponent<TextVFX>().TextAnim();

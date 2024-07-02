@@ -11251,23 +11251,6 @@ MonoBehaviour:
     ScoreText: {fileID: 892428252}
     InfoAniName: {fileID: 941660655}
     InfoAniImg: {fileID: 0}
-    AnimalSpr:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     AnimalName:
     - "\uAC70\uBBF8"
     - "\uB3C4\uB9C8\uBC40"
@@ -25608,15 +25591,14 @@ MonoBehaviour:
   IsStart: 0
   GETSheet: 0
   goalScore: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  HasScore: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   Score: 0
   PlusText: {fileID: 1728986881204927453, guid: 1e731da42bbd5024ba87a2e64f5e3872, type: 3}
   MinusText: {fileID: 1728986881204927453, guid: fa7191e0e520c254ca8ecb9366043008, type: 3}
   TimerText: {fileID: 1728986881204927453, guid: f9f6ab6171a48db499fd03a387767ca3, type: 3}
   UImanager: {fileID: 506807447}
   Spawnmanager: {fileID: 0}
-  MaxTime: 90000
-  CurTime: 90000
+  MaxTime: 120
+  CurTime: 120
   Coin: 0
   AttackItem1Lv: 0
   TimeItem2Lv: 0

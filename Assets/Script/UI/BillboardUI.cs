@@ -11,7 +11,7 @@ public class BillboardUI : MonoBehaviour
         mainCam = Camera.main.transform;
     }
 
-    // UI 화면바라보게
+    // UI 방향 카메라 정면
     private void LateUpdate()
     {
         transform.LookAt(transform.position + mainCam.rotation * Vector3.forward,

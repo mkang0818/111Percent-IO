@@ -8,33 +8,29 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
+
     [HideInInspector] public string StatData;
     const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:J17";
-
 
     public FloatingJoystick Joystick;
     public GameObject StartAni;
 
+    [HideInInspector] public UIManager UImanager;
+    [HideInInspector] public SpawnManager Spawnmanager;
     [HideInInspector] public PlayerController player;
     [HideInInspector] public int PlayerLv = 1;
     Vector3 spawnPos = new Vector3(0, 0.3f, 0);
     public float[] AnimalSize;
 
-    public bool IsStart = false;
-    public bool GETSheet = false;
-    public long[] goalScore;
-    public int Score = 0;
+    public float MaxTime = 90; // 최대 제한 시간
+    public float CurTime = 90; // 현재 제한 시간
+    public bool IsStart = false; // 게임 시작 여부
+    public bool GETSheet = false; // 시트 받아오기 여부
+    public long[] goalScore; // 레벨에 따른 목표 점수
+    public int Score = 0; // 현재 점수
 
-    public GameObject PlusText;
-    public GameObject MinusText;
-    public GameObject TimerText;
 
-    [HideInInspector] public UIManager UImanager;
-    [HideInInspector] public SpawnManager Spawnmanager;
-
-    public float MaxTime = 90;
-    public float CurTime = 90;
-
+    // 아이템 playerprefs
 
     [HideInInspector] public int Coin;
     [HideInInspector] public int AttackItem1Lv;
@@ -78,9 +74,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     private void Start()
     {
-        LoadCoin();
+        LoadCoin(); // 저장된 playerprefs 불러오기
     }
 
     // PlayerPrefs 불러오기
@@ -130,24 +128,27 @@ public class GameManager : MonoBehaviour
     {
         Coin -= amount;
         if (Coin < 0) Coin = 0;
-        SaveCoin();
+        SaveCoin(); // 저장
     }
+
+
+
+
 
     private void Update()
     {
         if (player != null) PlayerLv = player.playerstat.Lv;
     }
 
-    // 게임 오버 시 초기화
+    // 게임 오버 리셋
     public void GameOver(bool over)
     {
         Coin += Score;
         SaveCoin();
-        print("코인획득" + Score);
         IsStart = false;
         CurTime = MaxTime;
-        UImanager.gameUI.gameUI.SetActive(false);
 
+        UImanager.gameUI.gameUI.SetActive(false);
         if (over)
         {
             UImanager.endUI.gameOverUI.SetActive(true);
@@ -163,16 +164,17 @@ public class GameManager : MonoBehaviour
         Destroy(player.gameObject);
     }
 
-    // 플레이어프리팹 생성
+    // 플레이어 프리팹 생성
     public void PlayerIns()
     {
+        // 플레이어 생성
         player = Instantiate(StartAni, spawnPos, Quaternion.identity).GetComponent<PlayerController>();
 
         // (크기)아이템 적용
         Vector3 playerScale = player.transform.localScale;
         player.transform.localScale = new Vector3(playerScale.x + 0.02f * SizeItem3Lv, playerScale.y + 0.02f * SizeItem3Lv, playerScale.z + 0.02f * SizeItem3Lv);
 
-        StartCoroutine(GetSheet());
+        StartCoroutine(GetSheet()); // 구글 스프레드 시트 받아오기 시작
     }
 
     // 구글스프레드시트 데이터 받아오기
@@ -206,6 +208,7 @@ public class GameManager : MonoBehaviour
                     player.playerstat.Speed = int.Parse(column[3]);
                 }
 
+                // 플레이어 정보가 아닌 그 외 정보 (동물이름, 목표점수, 동물크기...)
                 UImanager.gameUI.AnimalName[i] = column[1];
                 goalScore[i] = long.Parse(column[4]);
                 AnimalSize[i] = float.Parse(column[5]);
@@ -213,8 +216,8 @@ public class GameManager : MonoBehaviour
                 Spawnmanager.spawnTime[i] = float.Parse(column[7]);
             }
         }
-        player.playerstat.At += 3 * AttackItem1Lv;
-        Score = 0;
+        player.playerstat.At += 3 * AttackItem1Lv; // 공격력 증가 아이템1번 구현
+        Score = 0; // 플레이어 업그레이드 후 목표점수 초기화
     }
 
     // 동물 오브젝트 스탯 초기화
@@ -231,29 +234,39 @@ public class GameManager : MonoBehaviour
             {
                 if (column[0] == AniCode)
                 {
+                    // AniCode에 해당하는 스탯 부여
                     prey.stat.Lv = int.Parse(column[0]);
                     prey.stat.Name = column[1];
-                    prey.stat.At = long.Parse(column[2]);
+                    prey.stat.At = double.Parse(column[2]);
                     prey.stat.Speed = int.Parse(column[3]);
                 }
             }
         }
     }
 
-    // 
-    public string FormatNumber(long number)
+    // 자릿수 단위 메서드
+    public string FormatNumber(double number)
     {
-        if (number >= 1_000_000_000)
+        if (number >= 1_000_000_000_000)
         {
-            return (number / 1_000_000_000D).ToString("0.##") + "B";
+            return (number / 1_000_000_000_000D).ToString(number >= 100 ? "0" : "0.00") + "T"; // 1조
+        }
+        else if (number >= 1_000_000_000)
+        {
+            return (number / 1_000_000_000D).ToString(number >= 100 ? "0" : "0.00") + "B"; // 10억
         }
         else if (number >= 1_000_000)
         {
-            return (number / 1_000_000D).ToString("0.##") + "M";
+            return (number / 1_000_000D).ToString(number >= 100 ? "0" : "0.00") + "M"; // 10만
+        }
+        else if (number >= 100)
+        {
+            return number.ToString("N0"); // 소숫점 없음
         }
         else
         {
-            return number.ToString("N0");
+            return number.ToString("N2"); // 소숫점 2자리까지
         }
     }
+
 }

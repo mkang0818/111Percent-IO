@@ -8,35 +8,40 @@ public class AnimalStat
 {
     public int Lv = 1;
     public string Name = "";
-    public long At = 1;
+    public double At = 0.011f;
     public int Speed = 0;
 }
 
 public class PlayerController : MonoBehaviour
 {
+    [HideInInspector] public AnimalStat playerstat;
+    [HideInInspector] public Slider goalSlider;
+    private FloatingJoystick joy;
     public GameObject[] AnimalArr;
 
     Rigidbody rigid;
     Vector3 moveVec;
-
     GameObject CurrentAnimal;
-    [HideInInspector] public AnimalStat playerstat;
-    [HideInInspector] public Slider goalSlider;
-    private FloatingJoystick joy;
-
-    public AudioClip UpgradeSound;
-    public AudioClip EatSound;
-    public AudioClip DamageSound;
-    public GameObject UpgradeVFX;
-    string upgradeVFX = "UpgradeVFX";
 
     public int[] UpgradeTime;
     public bool PlayerStart = false;
 
+    // 사운드 클립
+    public AudioClip UpgradeSound;
+    public AudioClip EatSound;
+    public AudioClip DamageSound;
+    public GameObject UpgradeVFX;
+
+    // 오브젝트 풀 이름
+    string upgradeVFX = "UpgradeVFX";
+
+
+    // 맵 제한구역 좌표
     private float MinX = -86.4f;
     private float MaxX = 67f;
     private float MinZ = -90.3f;
     private float MaxZ = 70.9f;
+
     void Start()
     {
         joy = GameManager.Instance.Joystick;
@@ -53,13 +58,37 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.CurTime -= Time.deltaTime;
 
-            Doundary();
             Movement();
             LvUp();
             GameOver();
             Clear();
+            Doundary();
 
             goalSlider.value = (float)GameManager.Instance.Score / (float)GameManager.Instance.goalScore[playerstat.Lv - 1];
+        }
+    }
+
+    // 플레이어 이동 구현
+    void Movement()
+    {
+        float x = joy.Horizontal;
+        float y = joy.Vertical;
+
+        Vector3 inputDirection = new Vector3(x, 0, y).normalized;
+
+        if (inputDirection == Vector3.zero)
+        {
+            rigid.MovePosition(rigid.position + moveVec);
+        }
+        else
+        {
+            moveVec = inputDirection * playerstat.Speed * Time.deltaTime;
+            rigid.MovePosition(rigid.position + moveVec);
+
+            Quaternion dirQuat = Quaternion.LookRotation(moveVec);
+            Quaternion moveQuat = Quaternion.Slerp(rigid.rotation, dirQuat, 0.3f);
+
+            rigid.MoveRotation(moveQuat);
         }
     }
 
@@ -93,15 +122,14 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.Score >= GameManager.Instance.goalScore[playerstat.Lv - 1])
         {
-            //print("업그레이드");
             if (playerstat.Lv <= 15) Upgrade();
         }
     }
+
     // 다음 레벨 업그레이드
     public void Upgrade()
     {
-        print(playerstat.Lv + "마지막 점수 : " + GameManager.Instance.Score + " " + "공격력 : " + playerstat.At);
-
+        // 현재 레벨의 오브젝트 삭제 후 다음 레벨의 오브젝트 생성
         Destroy(CurrentAnimal);
         int index = playerstat.Lv;
         CurrentAnimal = Instantiate(AnimalArr[index], transform);
@@ -116,18 +144,21 @@ public class PlayerController : MonoBehaviour
         UpgradeVFX.transform.localScale = new Vector3(index, index, index);
         UpgradeVFX.transform.position = transform.position;
         UpgradeVFX.GetComponent<VFXController>().ReleaseObj();
+
+        // 업그레이드 혜택 추가시간 10초
+        GameManager.Instance.CurTime += 10;
     }
 
-    // 
+    // 게임 클리어
     void Clear()
     {
         if (GameManager.Instance.Score >= GameManager.Instance.goalScore[15])
         {
-            print("게임클리어");
+            // 게임 초기화
             PlayerStart = false;
             GameManager.Instance.GameOver(false);
-            ClearObj();
-            Destroy(gameObject);
+            ClearObj(); // 맵 내 오브젝트 풀 반환
+            Destroy(gameObject); // 플레이어 삭제
         }
     }
 
@@ -136,13 +167,15 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.CurTime <= 0)
         {
-            print("게임오버");
+            // 게임 초기화
             PlayerStart = false;
             GameManager.Instance.GameOver(true);
             ClearObj();
             Destroy(gameObject);
         }
     }
+
+    // 게임 내 풀 오브젝트 비활성화
     void ClearObj()
     {
         GameObject[] ClearObjs = GameObject.FindGameObjectsWithTag("PreyAni");
@@ -153,35 +186,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 플레이어 이동 구현
-    void Movement()
-    {
-        float x = joy.Horizontal;
-        float y = joy.Vertical;
 
-        // 이동 방향 벡터를 계산
-        Vector3 inputDirection = new Vector3(x, 0, y).normalized;
-
-        // 조이스틱이 떼어진 경우나 입력값이 없을 때
-        if (inputDirection == Vector3.zero)
-        {
-            // 기존 방향으로 계속 이동
-            rigid.MovePosition(rigid.position + moveVec);
-        }
-        else
-        {
-            // 새로운 이동 방향 벡터 계산
-            moveVec = inputDirection * playerstat.Speed * Time.deltaTime;
-
-            // 캐릭터를 이동 방향으로 이동
-            rigid.MovePosition(rigid.position + moveVec);
-
-            // 회전 방향 계산
-            Quaternion dirQuat = Quaternion.LookRotation(moveVec);
-            Quaternion moveQuat = Quaternion.Slerp(rigid.rotation, dirQuat, 0.3f);
-
-            // 캐릭터 회전
-            rigid.MoveRotation(moveQuat);
-        }
-    }
 }

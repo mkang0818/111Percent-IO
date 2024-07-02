@@ -21,12 +21,13 @@ public class TextVFX : MonoBehaviour
     // 이펙트 텍스트 애니메이션
     public void TextAnim()
     {
-        int size = GameManager.Instance.PlayerLv;
-        transform.localScale = new Vector3(size, size, size);
+        int Textsize = GameManager.Instance.PlayerLv;
+        transform.localScale = new Vector3(Textsize, Textsize, Textsize);
         TextScale = transform.localScale;
 
-        float RandScale = Random.Range(size, size + 2);
+        float RandScale = Random.Range(Textsize, Textsize + 2);
         transform.DOScale(new Vector3(TextScale.x + RandScale, TextScale.y + RandScale, TextScale.z + RandScale), 0.4f);
+
         Invoke("BackUp", 0.5f);
         Invoke("ReleaseText", 1f);
     }
