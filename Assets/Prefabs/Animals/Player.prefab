@@ -84,6 +84,9 @@ MonoBehaviour:
     At: 0
     Speed: 0
   goalSlider: {fileID: 0}
+  UpgradeSound: {fileID: 8300000, guid: 727a62a4ec2360d4fbbe623e798a79fa, type: 3}
+  EatSound: {fileID: 8300000, guid: f0cb491e0534fdf4386a36b347e8decd, type: 3}
+  DamageSound: {fileID: 8300000, guid: 356c6106808b6894ab748b241324df1d, type: 3}
   UpgradeVFX: {fileID: 380284327063089880, guid: ed82a7b18ecbbf14e88ed139ccef11f5, type: 3}
   UpgradeTime: 1e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e000000
   PlayerStart: 0
