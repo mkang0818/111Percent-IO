@@ -61,19 +61,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd46a14e7d480b44b3a59a1fc8c844a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Range: 0
   AnimalArr:
-  - {fileID: 1469455994664124, guid: 461f7fe1b7866bb468dd185e7c7127e8, type: 3}
-  - {fileID: 1519499871649260, guid: c6070251a0d26bb4f904635c3d4b9c6c, type: 3}
   - {fileID: 1112124496423278, guid: ed317856290f66341b83f10a378b7b22, type: 3}
   - {fileID: 1487649244598836, guid: 175497921c3a6f64bb2160b5b9869a71, type: 3}
   - {fileID: 1850243185622332, guid: 4ce126bb3eec81e4488550969532187c, type: 3}
+  - {fileID: 1588765982522956, guid: b93019454ab721746a7f7e46620ce492, type: 3}
   - {fileID: 1601167407944880, guid: cda9a447370aca0438708cc76bcacf5d, type: 3}
   - {fileID: 1380609312295414, guid: 76f2d92b3f8fbcf40aec7536a53ef1f2, type: 3}
   - {fileID: 1905525985821456, guid: c4d2c25038c662a44819e09b35e8297b, type: 3}
   - {fileID: 1514975477636432, guid: fc10fca5ed19637418f4e9f9ef0438f2, type: 3}
   - {fileID: 1281212599284066, guid: 306eec9faf25aeb499ff984d66b83e66, type: 3}
   - {fileID: 1697340506704546, guid: a421ed8521b2ed0459476e578a349f99, type: 3}
+  - {fileID: 1276782084699662, guid: 11dded076acc99043b9f16a1252a88af, type: 3}
   - {fileID: 1152423970083012, guid: ef0afba2b69e8b84ab07cb1f5e594217, type: 3}
   - {fileID: 1051157094305240, guid: 5b3009d8a59de124f96adba79820d8fd, type: 3}
   - {fileID: 1799965832759594, guid: 97a664a5c8cb89348a8508c6e867fd35, type: 3}
@@ -82,12 +81,8 @@ MonoBehaviour:
   playerstat:
     Lv: 0
     Name: 
-    TimeLimit: 0
     At: 0
     Speed: 0
-    MaxExp: 0
-    CurExp: 0
-  AllyList: []
   goalSlider: {fileID: 0}
   UpgradeVFX: {fileID: 380284327063089880, guid: ed82a7b18ecbbf14e88ed139ccef11f5, type: 3}
   UpgradeTime: 1e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e000000

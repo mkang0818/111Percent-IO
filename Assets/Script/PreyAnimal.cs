@@ -10,7 +10,6 @@ public class PreyStat
 {
     public int Lv = 1;
     public string Name = "";
-    public float TimeLimit = 0;
     public long At = 0;
     public int Speed = 0;
 }
@@ -37,7 +36,6 @@ public class PreyAnimal : MonoBehaviour
     private float timer;
     [HideInInspector] public Transform target;
 
-    public GameObject RoundVFX;
     public State state;
     private void Start()
     {
@@ -61,12 +59,9 @@ public class PreyAnimal : MonoBehaviour
 
     void Update()
     {
-        //print("∏‘¿’∞® ∑π∫ß : "+stat.Lv);
-        //print(stat.Name);
+        //print(stat.Name ": " + stat.Lv);
         //print(stat.HP);
         //print(stat.At);
-        //print(stat.MaxExp);
-        //print(stat.CurExp);
 
         if(GameManager.Instance.IsStart) StateMotion();
     }

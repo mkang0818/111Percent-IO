@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     [HideInInspector] public string StatData;
     const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:J17";
-    
+
 
     public FloatingJoystick Joystick;
     public GameObject StartAni;
@@ -17,12 +18,13 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PlayerController player;
     [HideInInspector] public int PlayerLv = 1;
     Vector3 spawnPos = new Vector3(0, 0.3f, 0);
-    public int[] AnimalSize;
+    public float[] AnimalSize;
 
     public bool IsStart = false;
     public bool GETSheet = false;
-     public long[] goalScore;
-    public long Score = 0;
+    public long[] goalScore;
+    public int[] HasScore;
+    public int Score = 0;
 
     public GameObject PlusText;
     public GameObject MinusText;
@@ -30,7 +32,22 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public UIManager UImanager;
     [HideInInspector] public SpawnManager Spawnmanager;
-    
+
+    public float MaxTime = 90;
+    public float CurTime = 90;
+
+
+    [HideInInspector] public int Coin;
+    [HideInInspector] public int AttackItem1Lv;
+    [HideInInspector] public int TimeItem2Lv;
+    [HideInInspector] public int SizeItem3Lv;
+
+    private string coinKey = "PlayersCoin";
+    private string AttackItem1LvKey = "AttackItem1Lv";
+    private string TimeItem2LvKey = "TimeItem2Lv";
+    private string SizeItem3LvKey = "SizeItem3Lv";
+
+
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -63,20 +80,85 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        LoadCoin();
+
+        CurTime += TimeItem2Lv * 1;
+        MaxTime += TimeItem2Lv * 1;
+    }
+    void LoadCoin()
+    {
+        if (PlayerPrefs.HasKey(coinKey))
+        {
+            Coin = PlayerPrefs.GetInt(coinKey);
+            AttackItem1Lv = PlayerPrefs.GetInt(AttackItem1LvKey);
+            TimeItem2Lv = PlayerPrefs.GetInt(TimeItem2LvKey);
+            SizeItem3Lv = PlayerPrefs.GetInt(SizeItem3LvKey);
+        }
+        else
+        {
+            // 저장된 값이 없을 경우 기본값 0으로 설정
+            Coin = 0;
+            AttackItem1Lv = 1; 
+            TimeItem2Lv = 1;
+            SizeItem3Lv = 1;
+        }
+    }
+    public void SaveCoin()
+    {
+        PlayerPrefs.SetInt(coinKey, Coin);
+        PlayerPrefs.SetInt(AttackItem1LvKey, AttackItem1Lv);
+        PlayerPrefs.SetInt(TimeItem2LvKey, TimeItem2Lv);
+        PlayerPrefs.SetInt(SizeItem3LvKey, SizeItem3Lv);
+        print(Coin);
+        print(AttackItem1Lv);
+        print(TimeItem2Lv);
+        print(SizeItem3Lv);
+        PlayerPrefs.Save();
+    }
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            // 앱이 일시 중지될 때 마지막으로 저장
+            SaveCoin();
+        }
+    }
+    // 코인 감소
+    public void UseCoin(int amount)
+    {
+        Coin -= amount;
+        if (Coin < 0) Coin = 0;
+        SaveCoin();
+    }
+
     private void Update()
     {
-        if(player!= null) PlayerLv = player.playerstat.Lv;
+        if (player != null) PlayerLv = player.playerstat.Lv;
     }
 
     public void GameOver(bool over)
     {
+        Coin += Score;
+        SaveCoin();
+        print("코인획득" + Score);
         IsStart = false;
+        CurTime = MaxTime;
         Score = 0;
         UImanager.gameUI.gameUI.SetActive(false);
-        
-        if (over) UImanager.overUI.gameOverUI.SetActive(true);
-        else UImanager.overUI.gameClearUI.SetActive(true);
-        
+
+        if (over)
+        {
+            UImanager.endUI.gameOverUI.SetActive(true);
+            UImanager.OverUIUpdate();
+        }
+        else
+        {
+            UImanager.endUI.gameClearUI.SetActive(true);
+            UImanager.ClearUIUpdate();
+        }
+
         Destroy(player.gameObject);
     }
 
@@ -84,6 +166,8 @@ public class GameManager : MonoBehaviour
     public void PlayerIns()
     {
         player = Instantiate(StartAni, spawnPos, Quaternion.identity).GetComponent<PlayerController>();
+        player.transform.localScale = new Vector3(player.transform.localScale.x+0.02f * SizeItem3Lv, player.transform.localScale.y + 0.02f * SizeItem3Lv, player.transform.localScale.z + 0.02f * SizeItem3Lv);
+
         StartCoroutine(GetSheet());
     }
 
@@ -114,19 +198,17 @@ public class GameManager : MonoBehaviour
                 {
                     player.playerstat.Lv = int.Parse(column[0]);
                     player.playerstat.Name = column[1];
-                    player.playerstat.TimeLimit = int.Parse(column[2]);
-                    player.playerstat.At = long.Parse(column[3]);
-                    player.playerstat.Speed = int.Parse(column[4]);
+                    player.playerstat.Speed = int.Parse(column[3]);
                 }
                 UImanager.gameUI.AnimalName[i] = column[1];
-                goalScore[i] = long.Parse(column[5]);
-                print(int.Parse(column[6]));
-                AnimalSize[i] = int.Parse(column[6]);
-                Spawnmanager.PoolObjText[i] = column[7];
-                Spawnmanager.spawnTime[i] = float.Parse(column[8]);
-                Spawnmanager.SpawnPosSize[i] = int.Parse(column[9]);
+                goalScore[i] = long.Parse(column[4]);
+                AnimalSize[i] = float.Parse(column[5]);
+                Spawnmanager.PoolObjText[i] = column[6];
+                Spawnmanager.spawnTime[i] = float.Parse(column[7]);
+                HasScore[i] = int.Parse(column[8]);
             }
         }
+        player.playerstat.At += 3 * AttackItem1Lv;
     }
 
     // 
@@ -145,9 +227,8 @@ public class GameManager : MonoBehaviour
                 {
                     prey.stat.Lv = int.Parse(column[0]);
                     prey.stat.Name = column[1];
-                    prey.stat.TimeLimit = int.Parse(column[2]);
-                    prey.stat.At = long.Parse(column[3]);
-                    prey.stat.Speed = int.Parse(column[4]);
+                    prey.stat.At = long.Parse(column[2]);
+                    prey.stat.Speed = int.Parse(column[3]);
                 }
             }
         }

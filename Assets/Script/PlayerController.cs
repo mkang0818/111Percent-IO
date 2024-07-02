@@ -8,8 +8,7 @@ public class AnimalStat
 {
     public int Lv = 1;
     public string Name = "";
-    public float TimeLimit = 0;
-    public long At = 0;
+    public long At = 1;
     public int Speed = 0;
 }
 
@@ -22,7 +21,6 @@ public class PlayerController : MonoBehaviour
 
     GameObject CurrentAnimal;
     [HideInInspector] public AnimalStat playerstat;
-    [HideInInspector] public List<GameObject> AllyList;
     [HideInInspector] public Slider goalSlider;
     private FloatingJoystick joy;
 
@@ -36,7 +34,6 @@ public class PlayerController : MonoBehaviour
     private float MaxX = 67f;
     private float MinZ = -90.3f;
     private float MaxZ = 70.9f;
-
     void Start()
     {
         joy = GameManager.Instance.Joystick;
@@ -52,13 +49,15 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerStart)
         {
-            playerstat.TimeLimit -= Time.deltaTime;
-            
+            GameManager.Instance.CurTime -= Time.deltaTime;
+
             Doundary();
             Movement();
             LvUp();
             GameOver();
             Clear();
+
+            //print(playerstat.Name + " lv :" + playerstat.Lv + "sp :" + playerstat.Speed);
 
             goalSlider.value = (float)GameManager.Instance.Score / (float)GameManager.Instance.goalScore[playerstat.Lv - 1];
         }
@@ -95,17 +94,14 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.Score >= GameManager.Instance.goalScore[playerstat.Lv - 1])
         {
             //print("업그레이드");
-            if(playerstat.Lv <= 15) Upgrade();
+            if (playerstat.Lv <= 15) Upgrade();
         }
     }
     // 다음 레벨 업그레이드
     public void Upgrade()
     {
-        foreach (GameObject ally in AllyList)
-        {
-            Destroy(ally);
-        }
-        AllyList.Clear();
+        print("레벨업 : " + playerstat.At);
+
         Destroy(CurrentAnimal);
         int index = playerstat.Lv;
         CurrentAnimal = Instantiate(AnimalArr[index], transform);
@@ -137,7 +133,7 @@ public class PlayerController : MonoBehaviour
     // 게임 오버
     void GameOver()
     {
-        if (playerstat.TimeLimit <= 0)
+        if (GameManager.Instance.CurTime <= 0)
         {
             print("게임오버");
             PlayerStart = false;
@@ -148,18 +144,12 @@ public class PlayerController : MonoBehaviour
     }
     void ClearObj()
     {
-        foreach (GameObject listObj in AllyList)
-        {
-            listObj.tag = "PreyAni";
-        }
-
         GameObject[] ClearObjs = GameObject.FindGameObjectsWithTag("PreyAni");
 
-        foreach (GameObject obj in ClearObjs){
-            if(obj.GetComponent<PoolObj>()!= null) obj.GetComponent<PoolObj>().ReleaseObject();
+        foreach (GameObject obj in ClearObjs)
+        {
+            if (obj.GetComponent<PoolObj>() != null) obj.GetComponent<PoolObj>().ReleaseObject();
         }
-
-
     }
 
     // 플레이어 이동 구현

@@ -11,11 +11,8 @@ public class AnimalController : MonoBehaviour
     private GameObject playerObject;
     private PlayerController playerController;
 
-    // 동물의 크기가 커질 수록 FollowPos 또한 늘어나야함
-    public Transform[] FollowPos;
     Animator anim;
     string EatVFX = "EatVFX";
-
     string PlusText = "PlusText";
     string MinusText = "MinusText";
     string TimerText = "TimerText";
@@ -25,8 +22,6 @@ public class AnimalController : MonoBehaviour
         playerObject = transform.parent.gameObject;
         playerController = playerObject.GetComponent<PlayerController>();
         anim = GetComponent<Animator>();
-
-        // 부모 오브젝트 스탯 초기화
     }
     private void Update()
     {
@@ -48,7 +43,7 @@ public class AnimalController : MonoBehaviour
     {
         PreyAnimal prey = col.gameObject.GetComponent<PreyAnimal>();
         int Lv = prey.stat.Lv;
-
+        int playerlv = playerController.playerstat.Lv;
 
         // 같은 종류 동물과 충돌 시
         if (Lv == playerController.playerstat.Lv)
@@ -56,20 +51,13 @@ public class AnimalController : MonoBehaviour
             // 아군으로 자리 이동
             print("공격력증가");
             playerController.playerstat.At += prey.stat.At;
-            GameManager.Instance.Score += prey.stat.At;
-            ValueText(PlusText, prey.stat.At);
 
-            //따라다니기
-            prey.state = State.Follow;
-            prey.RoundVFX.SetActive(true);
-
-            playerController.AllyList.Add(prey.gameObject);
-
+            int value = Lv + GameManager.Instance.HasScore[playerlv-1];
+            GameManager.Instance.Score += value;
+            ValueText(PlusText, value);
             prey.gameObject.tag = "Player";
 
-            int index = playerController.AllyList.Count + 1;
-            // 인덱스 넘어감 예외처리
-            if (FollowPos.Length > index) prey.target = FollowPos[index];
+            col.GetComponent<PoolObj>().ReleaseObject();
         }
         //강한 동물과 충돌 시
         else if (Lv >= playerController.playerstat.Lv)
@@ -80,7 +68,7 @@ public class AnimalController : MonoBehaviour
 
                 // 공격받을 시 2초 시간 감소
                 int minusTime = 2;
-                playerController.playerstat.TimeLimit -= minusTime;
+                GameManager.Instance.CurTime -= minusTime;
 
                 ValueText(TimerText, minusTime);
                 Setsize(prey.stat.Lv, EatVFX);
@@ -91,9 +79,10 @@ public class AnimalController : MonoBehaviour
                 print("강한 동물 공격 성공");
 
                 playerController.playerstat.At += prey.stat.At;
-                GameManager.Instance.Score += prey.stat.At;
+                int value = Lv + GameManager.Instance.HasScore[playerlv-1];
+                GameManager.Instance.Score += value;
 
-                ValueText(PlusText, prey.stat.At);
+                ValueText(PlusText, value);
                 Setsize(prey.stat.Lv, EatVFX);
                 col.GetComponent<PoolObj>().ReleaseObject();
             }
@@ -112,9 +101,10 @@ public class AnimalController : MonoBehaviour
             playerController.playerstat.At += prey.stat.At;
 
             print("점수 획득");
-            GameManager.Instance.Score += prey.stat.At;
+            int value = Lv + GameManager.Instance.HasScore[playerlv-1];
+            GameManager.Instance.Score += value;
 
-            ValueText(PlusText, prey.stat.Lv);
+            ValueText(PlusText, value);
             Setsize(prey.stat.Lv, EatVFX);
             col.GetComponent<PoolObj>().ReleaseObject();
         }
@@ -124,7 +114,8 @@ public class AnimalController : MonoBehaviour
     void Setsize(int index, string objText)
     {
         GameObject Effect = PoolManager.instance.GetGo(objText);
-        Effect.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f) * GameManager.Instance.AnimalSize[index - 1];
+        float size = index * 0.1f;
+        Effect.transform.localScale = new Vector3(size, size, size);
         Effect.transform.position = transform.position;
         Effect.GetComponent<VFXController>().ReleaseObj();
     }
@@ -134,7 +125,7 @@ public class AnimalController : MonoBehaviour
     void ValueText(string TextName, long Value)
     {
         Vector3 playerPos = playerController.transform.position;
-        int Xrand = Random.Range(-playerController.playerstat.Lv / 2, playerController.playerstat.Lv / 2);
+        int Xrand = Random.Range(-playerController.playerstat.Lv / 4, playerController.playerstat.Lv / 4);
         Vector3 spawnPos = new Vector3(playerPos.x + Xrand, playerPos.y + playerController.playerstat.Lv, playerPos.z);
 
         GameObject TextObj = PoolManager.instance.GetGo(TextName);
