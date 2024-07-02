@@ -2281,7 +2281,7 @@ GameObject:
   - component: {fileID: 2823242357004430117}
   - component: {fileID: 6645305152869997693}
   - component: {fileID: 5964030919748352827}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2501,7 +2501,7 @@ GameObject:
   - component: {fileID: 442997524293234781}
   - component: {fileID: 5993858663682424385}
   - component: {fileID: 757263442512374979}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3483,9 +3483,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4864296859349792}
     m_Modifications:
+    - target: {fileID: 358301162740726754, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1015278120664845694, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
       propertyPath: m_Name
       value: PlayerGround
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015278120664845694, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1015278120664845695, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
       propertyPath: m_RootOrder
@@ -3541,6 +3549,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1015278120664845695, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391661046152726782, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756988317309772469, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162945927636590786, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649639665117608105, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4815102801138458630, guid: f473fe3bd0e19204a8d59566c095fbaf, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

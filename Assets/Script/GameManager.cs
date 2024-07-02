@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class GameManager : MonoBehaviour
 {
     [HideInInspector] public string StatData;
-    const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:G17";
+    const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:J17";
     
 
     public FloatingJoystick Joystick;
@@ -17,17 +17,20 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PlayerController player;
     [HideInInspector] public int PlayerLv = 1;
     Vector3 spawnPos = new Vector3(0, 0.3f, 0);
-    public int[] AniSize;
+    public int[] AnimalSize;
 
     public bool IsStart = false;
     public bool GETSheet = false;
-    public int[] goalScore;
+     public long[] goalScore;
     public long Score = 0;
 
     public GameObject PlusText;
     public GameObject MinusText;
     public GameObject TimerText;
 
+    [HideInInspector] public UIManager UImanager;
+    [HideInInspector] public SpawnManager Spawnmanager;
+    
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -35,14 +38,19 @@ public class GameManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                GameObject singleton = new GameObject(typeof(GameManager).ToString());
-                _instance = singleton.AddComponent<GameManager>();
-                DontDestroyOnLoad(singleton);
+                _instance = FindObjectOfType<GameManager>();
+                if (_instance == null)
+                {
+                    GameObject go = new GameObject("GameManager");
+                    _instance = go.AddComponent<GameManager>();
+                    DontDestroyOnLoad(go);
+                }
             }
             return _instance;
         }
     }
-    void Awake()
+
+    private void Awake()
     {
         if (_instance == null)
         {
@@ -58,6 +66,18 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if(player!= null) PlayerLv = player.playerstat.Lv;
+    }
+
+    public void GameOver(bool over)
+    {
+        IsStart = false;
+        Score = 0;
+        UImanager.gameUI.gameUI.SetActive(false);
+        
+        if (over) UImanager.overUI.gameOverUI.SetActive(true);
+        else UImanager.overUI.gameClearUI.SetActive(true);
+        
+        Destroy(player.gameObject);
     }
 
     // 플레이어프리팹 생성
@@ -97,9 +117,14 @@ public class GameManager : MonoBehaviour
                     player.playerstat.TimeLimit = int.Parse(column[2]);
                     player.playerstat.At = long.Parse(column[3]);
                     player.playerstat.Speed = int.Parse(column[4]);
-                    player.playerstat.MaxExp = int.Parse(column[5]);
-                    player.playerstat.CurExp = int.Parse(column[6]);
                 }
+                UImanager.gameUI.AnimalName[i] = column[1];
+                goalScore[i] = long.Parse(column[5]);
+                print(int.Parse(column[6]));
+                AnimalSize[i] = int.Parse(column[6]);
+                Spawnmanager.PoolObjText[i] = column[7];
+                Spawnmanager.spawnTime[i] = float.Parse(column[8]);
+                Spawnmanager.SpawnPosSize[i] = int.Parse(column[9]);
             }
         }
     }
@@ -123,8 +148,6 @@ public class GameManager : MonoBehaviour
                     prey.stat.TimeLimit = int.Parse(column[2]);
                     prey.stat.At = long.Parse(column[3]);
                     prey.stat.Speed = int.Parse(column[4]);
-                    prey.stat.MaxExp = int.Parse(column[5]);
-                    prey.stat.CurExp = int.Parse(column[6]);
                 }
             }
         }

@@ -9631,9 +9631,11 @@ GameObject:
   - component: {fileID: 1574516568193800052}
   - component: {fileID: 1574516568193800042}
   - component: {fileID: 1574516568193800053}
+  - component: {fileID: 1887312280067378559}
+  - component: {fileID: 9087201224533380164}
   m_Layer: 0
   m_Name: EatVFX
-  m_TagString: Untagged
+  m_TagString: PreyAni
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14435,6 +14437,30 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1887312280067378559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574516568193800055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8a9f9fbfd923346a325d9b7096ffd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9087201224533380164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574516568193800055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf740fc133640ea45afdc944e27e3d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1574516569545249758
 GameObject:
   m_ObjectHideFlags: 0

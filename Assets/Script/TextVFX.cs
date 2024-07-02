@@ -14,12 +14,12 @@ public class TextVFX : MonoBehaviour
     {
         ValueText.text = Value;
         TextScale = transform.localScale;
-        DamageTextOn();
+        TextAnim();
     }
 
 
     // 이펙트 텍스트 애니메이션
-    public void DamageTextOn()
+    public void TextAnim()
     {
         float RandScale = Random.Range(1.3f, 2);
         transform.DOScale(new Vector3(TextScale.x * RandScale, TextScale.y * RandScale, TextScale.z * RandScale), 0.4f);
@@ -33,7 +33,6 @@ public class TextVFX : MonoBehaviour
     
     void ReturnText()
     {
-        Destroy(gameObject);
-        //ReleaseObject();
+        GetComponent<PoolObj>().ReleaseObject();
     }
 }

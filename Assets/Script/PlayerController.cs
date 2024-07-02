@@ -11,14 +11,10 @@ public class AnimalStat
     public float TimeLimit = 0;
     public long At = 0;
     public int Speed = 0;
-    public int MaxExp = 0;
-    public int CurExp = 0;
 }
 
 public class PlayerController : MonoBehaviour
 {
-    public float Range;
-
     public GameObject[] AnimalArr;
 
     Rigidbody rigid;
@@ -31,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private FloatingJoystick joy;
 
     public GameObject UpgradeVFX;
+    string upgradeVFX = "UpgradeVFX";
 
     public int[] UpgradeTime;
     public bool PlayerStart = false;
@@ -60,21 +57,11 @@ public class PlayerController : MonoBehaviour
             Doundary();
             Movement();
             LvUp();
-            Dead();
-
+            GameOver();
+            Clear();
 
             goalSlider.value = (float)GameManager.Instance.Score / (float)GameManager.Instance.goalScore[playerstat.Lv - 1];
         }
-    }
-    private void LateUpdate()
-    {
-        //애니메이션
-        //print("현재 레벨 : " + playerstat.Lv);
-        //print("현재 이름 : " + playerstat.Name);
-        //print("현재 체력 : " + playerstat.CurHP);
-        //print("현재 공격력 : " + playerstat.At);
-        //print(stat.MaxExp);
-        //print(stat.CurExp);
     }
 
     // 맵 범위 밖 이동 제한
@@ -102,6 +89,15 @@ public class PlayerController : MonoBehaviour
         transform.position = CurPos;
     }
 
+    // 레벨 업그레이드
+    void LvUp()
+    {
+        if (GameManager.Instance.Score >= GameManager.Instance.goalScore[playerstat.Lv - 1])
+        {
+            //print("업그레이드");
+            if(playerstat.Lv <= 15) Upgrade();
+        }
+    }
     // 다음 레벨 업그레이드
     public void Upgrade()
     {
@@ -120,28 +116,50 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.PlayerInitStat(SheetTxt, (index + 1).ToString());
 
         // 업그레이드 이펙트
+        GameObject UpgradeVFX = PoolManager.instance.GetGo(upgradeVFX);
         UpgradeVFX.transform.localScale = new Vector3(index, index, index);
-        Instantiate(UpgradeVFX, transform);
+        UpgradeVFX.transform.position = transform.position;
+        UpgradeVFX.GetComponent<VFXController>().ReleaseObj();
     }
 
-    // 레벨 업그레이드
-    void LvUp()
+    void Clear()
     {
-        if (GameManager.Instance.Score >= GameManager.Instance.goalScore[playerstat.Lv - 1])
+        if (GameManager.Instance.Score >= GameManager.Instance.goalScore[15])
         {
-            print("업그레이드");
-            Upgrade();
+            print("게임클리어");
+            PlayerStart = false;
+            GameManager.Instance.GameOver(false);
+            ClearObj();
+            Destroy(gameObject);
         }
     }
 
     // 게임 오버
-    void Dead()
+    void GameOver()
     {
         if (playerstat.TimeLimit <= 0)
         {
-            print("DEAD");
+            print("게임오버");
             PlayerStart = false;
+            GameManager.Instance.GameOver(true);
+            ClearObj();
+            Destroy(gameObject);
         }
+    }
+    void ClearObj()
+    {
+        foreach (GameObject listObj in AllyList)
+        {
+            listObj.tag = "PreyAni";
+        }
+
+        GameObject[] ClearObjs = GameObject.FindGameObjectsWithTag("PreyAni");
+
+        foreach (GameObject obj in ClearObjs){
+            if(obj.GetComponent<PoolObj>()!= null) obj.GetComponent<PoolObj>().ReleaseObject();
+        }
+
+
     }
 
     // 플레이어 이동 구현

@@ -37,8 +37,6 @@ public class PoolManager : MonoBehaviour
             instance = this;
         else
             Destroy(this.gameObject);
-
-
         Init();
     }
     private void Init()

@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8452124020957204795}
   - component: {fileID: -6278396120178611111}
+  - component: {fileID: 212235242582651588}
   m_Layer: 0
   m_Name: TimePlusText
-  m_TagString: DamageTextEffect
+  m_TagString: PreyAni
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,6 +48,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ValueText: {fileID: 2936947356556095452}
   Value: 
+--- !u!114 &212235242582651588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728986881204927453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8a9f9fbfd923346a325d9b7096ffd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5493247083560609877
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +71,7 @@ GameObject:
   - component: {fileID: 627285645182191890}
   - component: {fileID: 1592310173183856956}
   - component: {fileID: 2936947356556095452}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DmgText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +126,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebc3e846a4feffb4aacaf5025fb25789, type: 2}
   m_sharedMaterial: {fileID: -8556727491832270683, guid: ebc3e846a4feffb4aacaf5025fb25789, type: 2}
@@ -122,8 +135,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255578
-  m_fontColor: {r: 0.85313916, g: 1, b: 0, a: 1}
+    rgba: 4284547327
+  m_fontColor: {r: 1, g: 0, b: 0.38114166, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -193,7 +206,7 @@ GameObject:
   - component: {fileID: 8333259367477038454}
   - component: {fileID: 6630597332666482188}
   - component: {fileID: 1746945486451792422}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DmgText (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +261,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +
+  m_text: '-'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebc3e846a4feffb4aacaf5025fb25789, type: 2}
   m_sharedMaterial: {fileID: -8556727491832270683, guid: ebc3e846a4feffb4aacaf5025fb25789, type: 2}
@@ -257,8 +270,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255578
-  m_fontColor: {r: 0.85313916, g: 1, b: 0, a: 1}
+    rgba: 4289003775
+  m_fontColor: {r: 1, g: 0, b: 0.64893913, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -330,7 +343,7 @@ GameObject:
   - component: {fileID: 2422541137962248918}
   - component: {fileID: 2131418059119958084}
   - component: {fileID: 8035072700902996066}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

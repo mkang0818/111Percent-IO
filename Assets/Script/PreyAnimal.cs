@@ -13,8 +13,6 @@ public class PreyStat
     public float TimeLimit = 0;
     public long At = 0;
     public int Speed = 0;
-    public int MaxExp = 0;
-    public int CurExp = 0;
 }
 public enum State
 {
@@ -41,23 +39,23 @@ public class PreyAnimal : MonoBehaviour
 
     public GameObject RoundVFX;
     public State state;
-
-    void Start()
+    private void Start()
     {
-        component();
+        //componentInit();
     }
 
     // 컴포넌트 초기화
-    void component()
+    public void componentInit()
     {
+        tag = "PreyAni";
         target = GameManager.Instance.player.gameObject.transform;
 
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
 
-        state = State.Move;
         agent.speed = stat.Speed * 0.3f;
+        state = State.Move;
         timer = wanderTimer;
     }
 
@@ -70,7 +68,7 @@ public class PreyAnimal : MonoBehaviour
         //print(stat.MaxExp);
         //print(stat.CurExp);
 
-        StateMotion();
+        if(GameManager.Instance.IsStart) StateMotion();
     }
 
     // 상태 구현
@@ -130,7 +128,7 @@ public class PreyAnimal : MonoBehaviour
 
         // 타겟 방향으로 회전
         Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 8.5f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5.5f);
 
         rigid.isKinematic = true;
     }

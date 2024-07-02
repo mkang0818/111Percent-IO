@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4931721680214293177}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,8 +82,7 @@ MonoBehaviour:
   playerstat:
     Lv: 0
     Name: 
-    MaxHP: 0
-    CurHP: 0
+    TimeLimit: 0
     At: 0
     Speed: 0
     MaxExp: 0
@@ -91,8 +90,5 @@ MonoBehaviour:
   AllyList: []
   goalSlider: {fileID: 0}
   UpgradeVFX: {fileID: 380284327063089880, guid: ed82a7b18ecbbf14e88ed139ccef11f5, type: 3}
-  AllyText: {fileID: 1728986881204927453, guid: 1e731da42bbd5024ba87a2e64f5e3872, type: 3}
-  DamageText: {fileID: 1728986881204927453, guid: fa7191e0e520c254ca8ecb9366043008, type: 3}
-  HeelText: {fileID: 1728986881204927453, guid: f9f6ab6171a48db499fd03a387767ca3, type: 3}
   UpgradeTime: 1e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e0000001e000000
   PlayerStart: 0

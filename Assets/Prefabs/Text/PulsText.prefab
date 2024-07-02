@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2094969957014736087}
   - component: {fileID: 5681662267314492712}
   - component: {fileID: 3656004083131744995}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DmgText (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,9 +145,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8452124020957204795}
   - component: {fileID: -5693749604635652838}
+  - component: {fileID: 6564464686208978294}
   m_Layer: 0
   m_Name: PulsText
-  m_TagString: DamageTextEffect
+  m_TagString: PreyAni
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,6 +183,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ValueText: {fileID: 2936947356556095452}
   Value: 
+--- !u!114 &6564464686208978294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728986881204927453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8a9f9fbfd923346a325d9b7096ffd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5493247083560609877
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +206,7 @@ GameObject:
   - component: {fileID: 627285645182191890}
   - component: {fileID: 1592310173183856956}
   - component: {fileID: 2936947356556095452}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DmgText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +343,7 @@ GameObject:
   - component: {fileID: 2422541137962248918}
   - component: {fileID: 2131418059119958084}
   - component: {fileID: 8035072700902996066}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
