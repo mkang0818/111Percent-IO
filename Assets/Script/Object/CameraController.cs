@@ -12,13 +12,13 @@ public class CameraController : MonoBehaviour
     {
 
         // 카메라 타겟 설정
-        if (GameManager.Instance.IsStart)
+        if (GameManager.Instance.isStart)
         {
-            target = GameManager.Instance.player.gameObject;
+            target = GameManager.Instance.Player.gameObject;
         }
 
         // 카메라 타겟 움직임
-        int CamIndex = GameManager.Instance.PlayerLv - 1;
+        int CamIndex = GameManager.Instance.playerLv - 1;
 
         if (target != null && CamIndex >= 0)
         {

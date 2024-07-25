@@ -32,7 +32,7 @@ public class PreyAnimal : MonoBehaviour
     // 오브젝트 풀로 활성화되어 타겟 및 컴포넌트 초기화
     public void componentInit()
     {
-        target = GameManager.Instance.player.gameObject.transform;
+        target = GameManager.Instance.Player.gameObject.transform;
 
         agent = GetComponent<NavMeshAgent>();
 
@@ -42,7 +42,7 @@ public class PreyAnimal : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.IsStart)
+        if (GameManager.Instance.isStart)
         {
             Movement(); // 자동 이동 메서드
             AttackText(); // 공격력 텍스트 업데이트
@@ -53,7 +53,7 @@ public class PreyAnimal : MonoBehaviour
     // 공격력 텍스트 업데이트
     void AttackText()
     {
-        double playerAt = target.gameObject.GetComponent<PlayerController>().playerstat.At;
+        double playerAt = target.gameObject.GetComponent<PlayerController>().PlayerStat.attack;
         
         if (stat.At < playerAt)
         {

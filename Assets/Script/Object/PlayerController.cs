@@ -6,57 +6,55 @@ using UnityEngine.UI;
 [System.Serializable]
 public class AnimalStat
 {
-    public int Lv = 1;
-    public string Name = "";
-    public double At = 0.011f;
-    public int Speed = 0;
+    public int lv = 1;
+    public string name = "";
+    public double attack = 0.011f;
+    public int speed = 0;
 }
 
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public AnimalStat playerstat;
-    [HideInInspector] public Slider goalSlider;
-    private FloatingJoystick joy;
-    public GameObject[] AnimalArr;
-
     Rigidbody rigid;
     Vector3 moveVec;
-    GameObject CurrentAnimal;
+    GameObject currentAnimal;
 
-    public int[] UpgradeTime;
-    public bool PlayerStart = false;
+    [HideInInspector] public AnimalStat PlayerStat;
+    [HideInInspector] public Slider goalSlider;
+
+    private FloatingJoystick joy;
+    public GameObject[] animalPrefabs;
+
+    public int[] upgradeTime;
+    public bool isStart = false;
 
     // 사운드 클립
-    public AudioClip UpgradeSound;
-    public AudioClip EatSound;
-    public AudioClip DamageSound;
-    public GameObject UpgradeVFX;
-
-    // 오브젝트 풀 이름
-    string upgradeVFX = "UpgradeVFX";
-
+    public AudioClip upgradeSound;
+    public AudioClip eatSound;
+    public AudioClip damageSound;
+    public GameObject upgradeVFX;
+    string _upgradeVFX = "UpgradeVFX"; // 오브젝트 풀 이름
 
     // 맵 제한구역 좌표
-    private float MinX = -86.4f;
-    private float MaxX = 67f;
-    private float MinZ = -90.3f;
-    private float MaxZ = 70.9f;
+    private float minX = -86.4f;
+    private float maxX = 67f;
+    private float minZ = -90.3f;
+    private float maxZ = 70.9f;
 
     void Start()
     {
         joy = GameManager.Instance.Joystick;
-        playerstat = new AnimalStat();
+        PlayerStat = new AnimalStat();
         rigid = GetComponent<Rigidbody>();
 
-        CurrentAnimal = Instantiate(AnimalArr[0], transform);
-        CurrentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정        
+        currentAnimal = Instantiate(animalPrefabs[0], transform);
+        currentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정        
     }
 
     void Update()
     {
-        if (PlayerStart)
+        if (isStart)
         {
-            GameManager.Instance.CurTime -= Time.deltaTime;
+            GameManager.Instance.curTime -= Time.deltaTime;
 
             Movement();
             LvUp();
@@ -64,7 +62,7 @@ public class PlayerController : MonoBehaviour
             Clear();
             Doundary();
 
-            goalSlider.value = (float)GameManager.Instance.Score / (float)GameManager.Instance.goalScore[playerstat.Lv - 1];
+            goalSlider.value = (float)GameManager.Instance.curScore / (float)GameManager.Instance.goalScore[PlayerStat.lv - 1];
         }
     }
 
@@ -82,7 +80,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            moveVec = inputDirection * playerstat.Speed * Time.deltaTime;
+            moveVec = inputDirection * PlayerStat.speed * Time.deltaTime;
             rigid.MovePosition(rigid.position + moveVec);
 
             Quaternion dirQuat = Quaternion.LookRotation(moveVec);
@@ -97,22 +95,22 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 CurPos = transform.position;
 
-        if (CurPos.x < MinX)
+        if (CurPos.x < minX)
         {
-            CurPos.x = MinX;
+            CurPos.x = minX;
         }
-        else if (CurPos.x > MaxX)
+        else if (CurPos.x > maxX)
         {
-            CurPos.x = MaxX;
+            CurPos.x = maxX;
         }
 
-        if (CurPos.z < MinZ)
+        if (CurPos.z < minZ)
         {
-            CurPos.z = MinZ;
+            CurPos.z = minZ;
         }
-        else if (CurPos.z > MaxZ)
+        else if (CurPos.z > maxZ)
         {
-            CurPos.z = MaxZ;
+            CurPos.z = maxZ;
         }
         transform.position = CurPos;
     }
@@ -120,9 +118,9 @@ public class PlayerController : MonoBehaviour
     // 레벨 업그레이드
     void LvUp()
     {
-        if (GameManager.Instance.Score >= GameManager.Instance.goalScore[playerstat.Lv - 1])
+        if (GameManager.Instance.curScore >= GameManager.Instance.goalScore[PlayerStat.lv - 1])
         {
-            if (playerstat.Lv <= 15) Upgrade();
+            if (PlayerStat.lv <= 15) Upgrade();
         }
     }
 
@@ -130,32 +128,32 @@ public class PlayerController : MonoBehaviour
     public void Upgrade()
     {
         // 현재 레벨의 오브젝트 삭제 후 다음 레벨의 오브젝트 생성
-        Destroy(CurrentAnimal);
-        int index = playerstat.Lv;
-        CurrentAnimal = Instantiate(AnimalArr[index], transform);
-        CurrentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정
+        Destroy(currentAnimal);
+        int index = PlayerStat.lv;
+        currentAnimal = Instantiate(animalPrefabs[index], transform);
+        currentAnimal.transform.localPosition = Vector3.zero; // 새 오브젝트의 위치를 Animal의 위치로 설정
 
         //스탯 초기화
         string SheetTxt = GameManager.Instance.StatData;
         GameManager.Instance.PlayerInitStat(SheetTxt, (index + 1).ToString());
 
         // 업그레이드 이펙트
-        GameObject UpgradeVFX = PoolManager.instance.GetGo(upgradeVFX);
+        GameObject UpgradeVFX = PoolManager.instance.GetGo(_upgradeVFX);
         UpgradeVFX.transform.localScale = new Vector3(index, index, index);
         UpgradeVFX.transform.position = transform.position;
         UpgradeVFX.GetComponent<VFXController>().ReleaseObj();
 
         // 업그레이드 혜택 추가시간 10초
-        GameManager.Instance.CurTime += 10;
+        GameManager.Instance.curTime += 10;
     }
 
     // 게임 클리어
     void Clear()
     {
-        if (GameManager.Instance.Score >= GameManager.Instance.goalScore[15])
+        if (GameManager.Instance.curScore >= GameManager.Instance.goalScore[15])
         {
             // 게임 초기화
-            PlayerStart = false;
+            isStart = false;
             GameManager.Instance.GameOver(false);
             ClearObj(); // 맵 내 오브젝트 풀 반환
             Destroy(gameObject); // 플레이어 삭제
@@ -165,10 +163,10 @@ public class PlayerController : MonoBehaviour
     // 게임 오버
     void GameOver()
     {
-        if (GameManager.Instance.CurTime <= 0)
+        if (GameManager.Instance.curTime <= 0)
         {
             // 게임 초기화
-            PlayerStart = false;
+            isStart = false;
             GameManager.Instance.GameOver(true);
             ClearObj();
             Destroy(gameObject);

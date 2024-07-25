@@ -8,39 +8,38 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
-
     [HideInInspector] public string StatData;
-    const string URL = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:J17";
+    const string url = "https://docs.google.com/spreadsheets/d/1qSbuMSkixGuWZJ--hDFaKnOlVopao0pXk9RJN53N90Q/export?format=tsv&range=A2:J17";
+
+    [HideInInspector] public UIManager UIManager;
+    [HideInInspector] public SpawnManager SpawnManager;
+    [HideInInspector] public PlayerController Player;
+    [HideInInspector] public int playerLv = 1;
 
     public FloatingJoystick Joystick;
-    public GameObject StartAni;
+    [SerializeField] GameObject playerPrefab;
 
-    [HideInInspector] public UIManager UImanager;
-    [HideInInspector] public SpawnManager Spawnmanager;
-    [HideInInspector] public PlayerController player;
-    [HideInInspector] public int PlayerLv = 1;
-    Vector3 spawnPos = new Vector3(0, 0.3f, 0);
-    public float[] AnimalSize;
-
-    public float MaxTime = 90; // 최대 제한 시간
-    public float CurTime = 90; // 현재 제한 시간
-    public bool IsStart = false; // 게임 시작 여부
-    public bool GETSheet = false; // 시트 받아오기 여부
+    // 게임 관련 변수
+    public float maxTime = 90; // 최대 제한 시간
+    public float curTime = 90; // 현재 제한 시간
+    public int curScore = 0; // 현재 점수
     public long[] goalScore; // 레벨에 따른 목표 점수
-    public int Score = 0; // 현재 점수
-
+    public float[] animalSize;
+    public bool isStart = false; // 게임 시작 여부
+    public bool getSheet = false; // 시트 받아오기 여부
+    Vector3 spawnPos = new Vector3(0, 0.3f, 0);
 
     // 아이템 playerprefs
+    [HideInInspector] public int coin;
+    [HideInInspector] public int attackItemLv;
+    [HideInInspector] public int timeItemLv;
+    [HideInInspector] public int sizeItemLv;
 
-    [HideInInspector] public int Coin;
-    [HideInInspector] public int AttackItem1Lv;
-    [HideInInspector] public int TimeItem2Lv;
-    [HideInInspector] public int SizeItem3Lv;
-
-    private string coinKey = "PlayersCoin";
-    private string AttackItem1LvKey = "AttackItem1Lv";
-    private string TimeItem2LvKey = "TimeItem2Lv";
-    private string SizeItem3LvKey = "SizeItem3Lv";
+    // 아이템 playerprefs 키
+    private string coinKey = "playersCoin";
+    private string attackItemLvKey = "attackItemLv";
+    private string timeItemLvKey = "timeItemLv";
+    private string sizeItemLvKey = "sizeItemLv";
 
     // 싱글톤
     private static GameManager _instance;
@@ -86,31 +85,31 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(coinKey))
         {
-            Coin = PlayerPrefs.GetInt(coinKey);
-            AttackItem1Lv = PlayerPrefs.GetInt(AttackItem1LvKey);
-            TimeItem2Lv = PlayerPrefs.GetInt(TimeItem2LvKey);
-            SizeItem3Lv = PlayerPrefs.GetInt(SizeItem3LvKey);
+            coin = PlayerPrefs.GetInt(coinKey);
+            attackItemLv = PlayerPrefs.GetInt(attackItemLvKey);
+            timeItemLv = PlayerPrefs.GetInt(timeItemLvKey);
+            sizeItemLv = PlayerPrefs.GetInt(sizeItemLvKey);
         }
         else // 저장된 값이 없을 경우 기본값 0으로 설정
         {            
-            Coin = 0;
-            AttackItem1Lv = 1;
-            TimeItem2Lv = 1;
-            SizeItem3Lv = 1;
+            coin = 0;
+            attackItemLv = 1;
+            timeItemLv = 1;
+            sizeItemLv = 1;
         }
 
         // 아이템 적용
-        CurTime += TimeItem2Lv * 1;
-        MaxTime += TimeItem2Lv * 1;
+        curTime += timeItemLv * 1;
+        maxTime += timeItemLv * 1;
     }
 
     // Playerprefs 저장
     public void SaveCoin()
     {
-        PlayerPrefs.SetInt(coinKey, Coin);
-        PlayerPrefs.SetInt(AttackItem1LvKey, AttackItem1Lv);
-        PlayerPrefs.SetInt(TimeItem2LvKey, TimeItem2Lv);
-        PlayerPrefs.SetInt(SizeItem3LvKey, SizeItem3Lv);
+        PlayerPrefs.SetInt(coinKey, coin);
+        PlayerPrefs.SetInt(attackItemLvKey, attackItemLv);
+        PlayerPrefs.SetInt(timeItemLvKey, timeItemLv);
+        PlayerPrefs.SetInt(sizeItemLvKey, sizeItemLv);
         PlayerPrefs.Save();
     }
 
@@ -126,53 +125,50 @@ public class GameManager : MonoBehaviour
     // 코인 감소
     public void UseCoin(int amount)
     {
-        Coin -= amount;
-        if (Coin < 0) Coin = 0;
+        coin -= amount;
+        if (coin < 0) coin = 0;
         SaveCoin(); // 저장
     }
 
 
-
-
-
     private void Update()
     {
-        if (player != null) PlayerLv = player.playerstat.Lv;
+        if (Player != null) playerLv = Player.PlayerStat.lv;
     }
 
     // 게임 오버 리셋
     public void GameOver(bool over)
     {
-        Coin += Score;
+        coin += curScore;
         SaveCoin();
-        IsStart = false;
-        CurTime = MaxTime;
+        isStart = false;
+        curTime = maxTime;
 
-        UImanager.gameUI.gameUI.SetActive(false);
+        UIManager.GameUI.gameUI.SetActive(false);
         if (over)
         {
-            UImanager.endUI.gameOverUI.SetActive(true);
-            UImanager.OverUIUpdate(Score, Coin);
+            UIManager.EndUI.gameOverUI.SetActive(true);
+            UIManager.OverUIUpdate(curScore, coin);
         }
         else
         {
-            UImanager.endUI.gameClearUI.SetActive(true);
-            UImanager.ClearUIUpdate(Score, Coin);
+            UIManager.EndUI.gameClearUI.SetActive(true);
+            UIManager.ClearUIUpdate(curScore, coin);
         }
 
-        Score = 0;
-        Destroy(player.gameObject);
+        curScore = 0;
+        Destroy(Player.gameObject);
     }
 
     // 플레이어 프리팹 생성
     public void PlayerIns()
     {
         // 플레이어 생성
-        player = Instantiate(StartAni, spawnPos, Quaternion.identity).GetComponent<PlayerController>();
+        Player = Instantiate(playerPrefab, spawnPos, Quaternion.identity).GetComponent<PlayerController>();
 
         // (크기)아이템 적용
-        Vector3 playerScale = player.transform.localScale;
-        player.transform.localScale = new Vector3(playerScale.x + 0.02f * SizeItem3Lv, playerScale.y + 0.02f * SizeItem3Lv, playerScale.z + 0.02f * SizeItem3Lv);
+        Vector3 playerScale = Player.transform.localScale;
+        Player.transform.localScale = new Vector3(playerScale.x + 0.02f * sizeItemLv, playerScale.y + 0.02f * sizeItemLv, playerScale.z + 0.02f * sizeItemLv);
 
         StartCoroutine(GetSheet()); // 구글 스프레드 시트 받아오기 시작
     }
@@ -180,13 +176,13 @@ public class GameManager : MonoBehaviour
     // 구글스프레드시트 데이터 받아오기
     IEnumerator GetSheet()
     {
-        UnityWebRequest www = UnityWebRequest.Get(URL);
+        UnityWebRequest www = UnityWebRequest.Get(url);
 
         yield return www.SendWebRequest();
 
         StatData = www.downloadHandler.text;
         PlayerInitStat(StatData, "1");
-        GETSheet = true;
+        getSheet = true;
     }
 
     // 플레이어 스탯 초기화
@@ -203,21 +199,21 @@ public class GameManager : MonoBehaviour
             {
                 if (column[0] == AniCode)
                 {
-                    player.playerstat.Lv = int.Parse(column[0]);
-                    player.playerstat.Name = column[1];
-                    player.playerstat.Speed = int.Parse(column[3]);
+                    Player.PlayerStat.lv = int.Parse(column[0]);
+                    Player.PlayerStat.name = column[1];
+                    Player.PlayerStat.speed = int.Parse(column[3]);
                 }
 
                 // 플레이어 정보가 아닌 그 외 정보 (동물이름, 목표점수, 동물크기...)
-                UImanager.gameUI.AnimalName[i] = column[1];
+                UIManager.GameUI.animalName[i] = column[1];
                 goalScore[i] = long.Parse(column[4]);
-                AnimalSize[i] = float.Parse(column[5]);
-                Spawnmanager.PoolObjText[i] = column[6];
-                Spawnmanager.spawnTime[i] = float.Parse(column[7]);
+                animalSize[i] = float.Parse(column[5]);
+                SpawnManager.PoolObjText[i] = column[6];
+                SpawnManager.spawnTime[i] = float.Parse(column[7]);
             }
         }
-        player.playerstat.At += 3 * AttackItem1Lv; // 공격력 증가 아이템1번 구현
-        Score = 0; // 플레이어 업그레이드 후 목표점수 초기화
+        Player.PlayerStat.attack += 3 * attackItemLv; // 공격력 증가 아이템1번 구현
+        curScore = 0; // 플레이어 업그레이드 후 목표점수 초기화
     }
 
     // 동물 오브젝트 스탯 초기화
@@ -268,5 +264,4 @@ public class GameManager : MonoBehaviour
             return number.ToString("N2"); // 소숫점 2자리까지
         }
     }
-
 }

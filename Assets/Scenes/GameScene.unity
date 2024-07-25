@@ -9712,7 +9712,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 209.8, y: -110.2}
+  m_AnchoredPosition: {x: 209.80005, y: -110.200195}
   m_SizeDelta: {x: 0, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &379090981
@@ -11231,53 +11231,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c39e7117c9cda54d8c35fe264182b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainUI:
+  SpawnManager: {fileID: 1759748815}
+  MainUI:
     mainUI: {fileID: 2027413747}
-    CoinText: {fileID: 1413544674}
-    ZemText: {fileID: 1052066826}
-    Item1Lv: {fileID: 1097239706}
-    Item1Price: {fileID: 1268671129}
-    Item2Lv: {fileID: 2142283981}
-    Item2Price: {fileID: 1965048970}
-    Item3Lv: {fileID: 316979646}
-    Item3Price: {fileID: 241735281}
-    BtClick: {fileID: 8300000, guid: 7a1ad1f4f05bd954988f8c930b3b4c70, type: 3}
-    BuySound: {fileID: 8300000, guid: 6bc787ec6bd83e54da0b290793744459, type: 3}
-  gameUI:
+    coinText: {fileID: 1413544674}
+    zemText: {fileID: 1052066826}
+    item1Lv: {fileID: 1097239706}
+    item1Price: {fileID: 1268671129}
+    item2Lv: {fileID: 2142283981}
+    item2Price: {fileID: 1965048970}
+    item3Lv: {fileID: 316979646}
+    item3Price: {fileID: 241735281}
+    btClick: {fileID: 8300000, guid: 7a1ad1f4f05bd954988f8c930b3b4c70, type: 3}
+    buySound: {fileID: 8300000, guid: 6bc787ec6bd83e54da0b290793744459, type: 3}
+  GameUI:
     gameUI: {fileID: 700994029}
-    GoalSlider: {fileID: 665972488}
-    CountDownText: {fileID: 1318993012}
-    TimerText: {fileID: 1806858741}
-    ScoreText: {fileID: 892428252}
-    InfoAniName: {fileID: 941660655}
-    InfoAniImg: {fileID: 0}
-    AnimalName:
-    - "\uAC70\uBBF8"
-    - "\uB3C4\uB9C8\uBC40"
-    - "\uBCD1\uC544\uB9AC"
-    - "\uACE0\uC591\uC774"
-    - "\uAC1C"
-    - "\uAC70\uBD81\uC774"
-    - "\uCF54\uBAA8\uB3C4\uB3C4\uB9C8\uBC40"
-    - "\uB3FC\uC9C0"
-    - "\uB9D0"
-    - "\uB9F7\uB3FC\uC9C0"
-    - "\uCE58\uD0C0"
-    - "\uC5BC\uB8E9\uB9D0"
-    - "\uBB3C\uC18C"
-    - "\uD638\uB791\uC774"
-    - "\uCF54\uBFD4\uC18C"
-    - "\uCF54\uB07C\uB9AC"
-    LvText: {fileID: 1666789769}
-    AnimalText: {fileID: 1490144908}
-  endUI:
+    goalSlider: {fileID: 665972488}
+    countdownText: {fileID: 1318993012}
+    timerText: {fileID: 1806858741}
+    scoreText: {fileID: 892428252}
+    infoAniName: {fileID: 941660655}
+    lvText: {fileID: 1666789769}
+    animalText: {fileID: 1490144908}
+    animalName:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  EndUI:
     gameOverUI: {fileID: 1277751744}
     gameClearUI: {fileID: 492099043}
-    ClearScore: {fileID: 339302014}
-    ClearCoin: {fileID: 255826032}
-    OverScore: {fileID: 153770121}
-    OverCoin: {fileID: 431021200}
-  spawnmanager: {fileID: 1759748815}
+    clearScore: {fileID: 339302014}
+    clearCoin: {fileID: 255826032}
+    overScore: {fileID: 153770121}
+    overCoin: {fileID: 431021200}
 --- !u!1001 &511330369
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18223,7 +18222,7 @@ GameObject:
   - component: {fileID: 941660656}
   - component: {fileID: 941660655}
   m_Layer: 5
-  m_Name: InfoName
+  m_Name: NextInfoName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25567,42 +25566,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StatData: 
+  UIManager: {fileID: 0}
+  SpawnManager: {fileID: 0}
+  Player: {fileID: 0}
+  playerLv: 1
   Joystick: {fileID: 1767739506}
-  StartAni: {fileID: 8561681736735075458, guid: 89b896cc789d42d4b8d48246bd04688e, type: 3}
-  player: {fileID: 0}
-  PlayerLv: 0
-  AnimalSize:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  IsStart: 0
-  GETSheet: 0
+  playerPrefab: {fileID: 8561681736735075458, guid: 89b896cc789d42d4b8d48246bd04688e, type: 3}
+  maxTime: 120
+  curTime: 120
+  curScore: 0
   goalScore: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  Score: 0
-  PlusText: {fileID: 1728986881204927453, guid: 1e731da42bbd5024ba87a2e64f5e3872, type: 3}
-  MinusText: {fileID: 1728986881204927453, guid: fa7191e0e520c254ca8ecb9366043008, type: 3}
-  TimerText: {fileID: 1728986881204927453, guid: f9f6ab6171a48db499fd03a387767ca3, type: 3}
-  UImanager: {fileID: 506807447}
-  Spawnmanager: {fileID: 0}
-  MaxTime: 120
-  CurTime: 120
-  Coin: 0
-  AttackItem1Lv: 0
-  TimeItem2Lv: 0
-  SizeItem3Lv: 0
+  animalSize:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  isStart: 0
+  getSheet: 0
+  coin: 0
+  attackItemLv: 0
+  timeItemLv: 0
+  sizeItemLv: 0
 --- !u!4 &1096659455
 Transform:
   m_ObjectHideFlags: 0

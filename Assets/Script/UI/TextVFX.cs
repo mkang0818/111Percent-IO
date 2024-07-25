@@ -21,7 +21,7 @@ public class TextVFX : MonoBehaviour
     // 이펙트 텍스트 애니메이션
     public void TextAnim()
     {
-        int Textsize = GameManager.Instance.PlayerLv;
+        int Textsize = GameManager.Instance.playerLv;
         transform.localScale = new Vector3(Textsize, Textsize, Textsize);
         TextScale = transform.localScale;
 

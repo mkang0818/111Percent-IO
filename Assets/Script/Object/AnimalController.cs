@@ -5,28 +5,28 @@ using TMPro;
 
 public class AnimalController : MonoBehaviour
 {
-    public TextMeshProUGUI AttackText;
+    public TextMeshProUGUI attackText;
 
     // 참조할 부모 오브젝트 (플레이어 오브젝트)
     private GameObject playerObject;
-    private PlayerController playerController;
+    private PlayerController _playerController;
 
     Animator anim;
-    string EatVFX = "EatVFX";
-    string PlusText = "PlusText";
-    string TimerText = "TimerText";
+    string eatVFX = "EatVFX";
+    string plusText = "PlusText";
+    string timerText = "TimerText";
 
     void Start()
     {
         // 부모 오브젝트 설정
         playerObject = transform.parent.gameObject;
-        playerController = playerObject.GetComponent<PlayerController>();
+        _playerController = playerObject.GetComponent<PlayerController>();
         anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        AttackText.text = GameManager.Instance.FormatNumber(playerController.playerstat.At); // 공격력 텍스트 업데이트
+        attackText.text = GameManager.Instance.FormatNumber(_playerController.PlayerStat.attack); // 공격력 텍스트 업데이트
         anim.SetBool("IsRun", true); // 애니메이션 작동
     }
 
@@ -51,64 +51,63 @@ public class AnimalController : MonoBehaviour
         // 1. 같은 레벨과 충돌, 2. 높은 레벨과 충돌, 낮은 레벨과 충돌
 
         // 같은 종 동물과 충돌
-        if (Lv == playerController.playerstat.Lv)
+        if (Lv == _playerController.PlayerStat.lv)
         {
-            SoundManager.Instance.SoundPlay("Eat", playerController.EatSound);
-            
-            playerController.playerstat.At += prey.stat.At; // 공격력 증가
-            GameManager.Instance.Score += Lv; // 점수 획득
-            ValueText(PlusText, Lv); // 텍스트 이펙트 생성
+            SoundManager.Instance.SoundPlay("Eat", _playerController.eatSound);
+
+            _playerController.PlayerStat.attack += prey.stat.At; // 공격력 증가
+            GameManager.Instance.curScore += Lv; // 점수 획득
+            ValueText(plusText, Lv); // 텍스트 이펙트 생성
 
             col.GetComponent<PoolObj>().ReleaseObject(); // 오브젝트 풀 반환
         }
         // 높은 레벨 동물과 충돌
-        else if (Lv >= playerController.playerstat.Lv)
+        else if (Lv >= _playerController.PlayerStat.lv)
         {
-            if (prey.stat.At > playerController.playerstat.At) // 높은 레벨보다 약할 때
+            if (prey.stat.At > _playerController.PlayerStat.attack) // 높은 레벨보다 약할 때
             {
-                SoundManager.Instance.SoundPlay("Damage", playerController.DamageSound);
+                SoundManager.Instance.SoundPlay("Damage", _playerController.damageSound);
 
                 // 공격받을 시 2초 시간 감소
                 int minusTime = 2;
-                GameManager.Instance.CurTime -= minusTime;
+                GameManager.Instance.curTime -= minusTime;
 
                 // 이펙트 생성 및 크기 설정
-                ValueText(TimerText, minusTime);
-                Setsize(prey.stat.Lv, EatVFX);
+                ValueText(timerText, minusTime);
+                Setsize(prey.stat.Lv, eatVFX);
                 col.GetComponent<PoolObj>().ReleaseObject();
             }
-            else if (prey.stat.At <= playerController.playerstat.At)  // 높은 레벨보다 강할 때
+            else if (prey.stat.At <= _playerController.PlayerStat.attack)  // 높은 레벨보다 강할 때
             {
-                SoundManager.Instance.SoundPlay("Eat", playerController.EatSound);
+                SoundManager.Instance.SoundPlay("Eat", _playerController.eatSound);
 
-                playerController.playerstat.At += prey.stat.At; // 공격력 증가
-                GameManager.Instance.Score += Lv;
+                _playerController.PlayerStat.attack += prey.stat.At; // 공격력 증가
+                GameManager.Instance.curScore += Lv;
 
                 // 이펙트 생성 및 크기 설정
-                ValueText(PlusText, Lv);
-                Setsize(prey.stat.Lv, EatVFX);
+                ValueText(plusText, Lv);
+                Setsize(prey.stat.Lv, eatVFX);
                 col.GetComponent<PoolObj>().ReleaseObject();
             }
-            else if (GameManager.Instance.Score >= GameManager.Instance.goalScore[prey.stat.Lv])  // 높은 레벨보다 약할 때
+            else if (GameManager.Instance.curScore >= GameManager.Instance.goalScore[prey.stat.Lv])  // 높은 레벨보다 약할 때
             {
                 //????????????????????
                 print("다음 동물로 성장");
-                SoundManager.Instance.SoundPlay("Upgrade", playerController.UpgradeSound);
-                playerController.Upgrade();
+                SoundManager.Instance.SoundPlay("Upgrade", _playerController.upgradeSound);
+                _playerController.Upgrade();
                 Destroy(col.gameObject);
             }
         }
         // 낮은 레벨 동물과 충돌
-        else if (Lv <= playerController.playerstat.Lv)
+        else if (Lv <= _playerController.PlayerStat.lv)
         {
-            SoundManager.Instance.SoundPlay("Eat", playerController.EatSound);
+            SoundManager.Instance.SoundPlay("Eat", _playerController.eatSound);
 
-            playerController.playerstat.At += prey.stat.At; // 공격력 증가
-            GameManager.Instance.Score += Lv; // 점수 획득
+            _playerController.PlayerStat.attack += prey.stat.At; // 공격력 증가
+            GameManager.Instance.curScore += Lv; // 점수 획득
 
             // 이펙트 생성 및 크기 설정
-            ValueText(PlusText, Lv);
-            Setsize(prey.stat.Lv, EatVFX);
+            ValueText(plusText, Lv);
             col.GetComponent<PoolObj>().ReleaseObject();
         }
     }
@@ -128,9 +127,9 @@ public class AnimalController : MonoBehaviour
     void ValueText(string TextName, double Value)
     {
         // 이펙트 좌표 설정
-        Vector3 playerPos = playerController.transform.position;
-        int Xrand = Random.Range(-playerController.playerstat.Lv / 4, playerController.playerstat.Lv / 4);
-        Vector3 spawnPos = new Vector3(playerPos.x + Xrand, playerPos.y + playerController.playerstat.Lv, playerPos.z);
+        Vector3 playerPos = _playerController.transform.position;
+        int Xrand = Random.Range(-_playerController.PlayerStat.lv / 4, _playerController.PlayerStat.lv / 4);
+        Vector3 spawnPos = new Vector3(playerPos.x + Xrand, playerPos.y + _playerController.PlayerStat.lv, playerPos.z);
 
         // 이펙트 오브젝트 풀 활성화
         GameObject TextObj = PoolManager.instance.GetGo(TextName);

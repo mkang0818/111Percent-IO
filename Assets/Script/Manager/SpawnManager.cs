@@ -12,14 +12,14 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.Spawnmanager = GetComponent<SpawnManager>();
+        GameManager.Instance.SpawnManager = GetComponent<SpawnManager>();
     }
 
     void Update()
     {
-        if (GameManager.Instance.IsStart)
+        if (GameManager.Instance.isStart)
         {
-            PlayerLv = GameManager.Instance.PlayerLv - 1;
+            PlayerLv = GameManager.Instance.playerLv - 1;
         }
     }
 
@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         while (true)
         {
-            if (!GameManager.Instance.IsStart) break;  // 게임종료 시 비활성화
+            if (!GameManager.Instance.isStart) break;  // 게임종료 시 비활성화
 
             spawnSetting(PlayerLv);
 
@@ -50,7 +50,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         while (true)
         {
-            if (!GameManager.Instance.IsStart) break; // 게임종료 시 비활성화
+            if (!GameManager.Instance.isStart) break; // 게임종료 시 비활성화
 
             // 마지막 배열 수 예외처리
             if (PlayerLv + 1 < 15) spawnSetting(PlayerLv + 1);

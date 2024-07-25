@@ -10,20 +10,20 @@ using TMPro;
 public class MainUI
 {
     public GameObject mainUI;
-    public TextMeshProUGUI CoinText;
-    public TextMeshProUGUI ZemText;
+    public TextMeshProUGUI coinText;
+    public TextMeshProUGUI zemText;
 
     //ItemUI
-    public TextMeshProUGUI Item1Lv;
-    public TextMeshProUGUI Item1Price;
-    public TextMeshProUGUI Item2Lv;
-    public TextMeshProUGUI Item2Price;
-    public TextMeshProUGUI Item3Lv;
-    public TextMeshProUGUI Item3Price;
+    public TextMeshProUGUI item1Lv;
+    public TextMeshProUGUI item1Price;
+    public TextMeshProUGUI item2Lv;
+    public TextMeshProUGUI item2Price;
+    public TextMeshProUGUI item3Lv;
+    public TextMeshProUGUI item3Price;
 
     //Sound
-    public AudioClip BtClick;
-    public AudioClip BuySound;
+    public AudioClip btClick;
+    public AudioClip buySound;
 }
 
 // 게임 UI
@@ -31,16 +31,15 @@ public class MainUI
 public class GameUI
 {
     public GameObject gameUI;
-    public Slider GoalSlider;
-    public TextMeshProUGUI CountDownText;
-    public TextMeshProUGUI TimerText;
-    public TextMeshProUGUI ScoreText;
-    public TextMeshProUGUI InfoAniName;
-    public Image InfoAniImg;
-    public TextMeshProUGUI LvText;
-    public TextMeshProUGUI AnimalText;
+    public Slider goalSlider;
+    public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI infoAniName;
+    public TextMeshProUGUI lvText;
+    public TextMeshProUGUI animalText;
 
-    public string[] AnimalName;
+    public string[] animalName;
 }
 
 // 게임오버,클리어 UI
@@ -50,26 +49,26 @@ public class EndingUI
     public GameObject gameOverUI;
     public GameObject gameClearUI;
 
-    public TextMeshProUGUI ClearScore;
-    public TextMeshProUGUI ClearCoin;
-    public TextMeshProUGUI OverScore;
-    public TextMeshProUGUI OverCoin;
+    public TextMeshProUGUI clearScore;
+    public TextMeshProUGUI clearCoin;
+    public TextMeshProUGUI overScore;
+    public TextMeshProUGUI overCoin;
 }
 
 
 public class UIManager : MonoBehaviour
 {
     private PlayerController player;
-    public SpawnManager spawnmanager;
-    public MainUI mainUI;
-    public GameUI gameUI;
-    public EndingUI endUI;
+    public SpawnManager SpawnManager;
+    public MainUI MainUI;
+    public GameUI GameUI;
+    public EndingUI EndUI;
 
     int ItemPrice = 100;
 
     private void Start()
     {
-        GameManager.Instance.UImanager = GetComponent<UIManager>();
+        GameManager.Instance.UIManager = GetComponent<UIManager>();
     }
 
     private void Update()
@@ -80,41 +79,41 @@ public class UIManager : MonoBehaviour
     // 인 게임 UI 업데이트
     void GameUIUpdate()
     {
-        if (GameManager.Instance.IsStart && GameManager.Instance.GETSheet)
+        if (GameManager.Instance.isStart && GameManager.Instance.getSheet)
         {
             InfoUpdate();
         }
-        mainUIUpdate();
+        MainUIUpdate();
     }
 
     // 메인 화면 UI 업데이트
-    void mainUIUpdate()
+    void MainUIUpdate()
     {
-        int Coin = GameManager.Instance.Coin;
-        mainUI.CoinText.text = GameManager.Instance.FormatNumber(Coin);
+        int Coin = GameManager.Instance.coin;
+        MainUI.coinText.text = GameManager.Instance.FormatNumber(Coin);
 
-        mainUI.Item1Lv.text = "공격력 LV. " + GameManager.Instance.AttackItem1Lv.ToString();
-        mainUI.Item2Lv.text = "시간 증폭 LV. " + GameManager.Instance.TimeItem2Lv.ToString();
-        mainUI.Item3Lv.text = "크기 LV. " + GameManager.Instance.SizeItem3Lv.ToString();
-        mainUI.Item1Price.text = (100 * GameManager.Instance.AttackItem1Lv).ToString();
-        mainUI.Item2Price.text = (100 * GameManager.Instance.TimeItem2Lv).ToString();
-        mainUI.Item3Price.text = (100 * GameManager.Instance.SizeItem3Lv).ToString();
+        MainUI.item1Lv.text = "공격력 LV. " + GameManager.Instance.attackItemLv.ToString();
+        MainUI.item2Lv.text = "시간 증폭 LV. " + GameManager.Instance.timeItemLv.ToString();
+        MainUI.item3Lv.text = "크기 LV. " + GameManager.Instance.sizeItemLv.ToString();
+        MainUI.item1Price.text = (100 * GameManager.Instance.attackItemLv).ToString();
+        MainUI.item2Price.text = (100 * GameManager.Instance.timeItemLv).ToString();
+        MainUI.item3Price.text = (100 * GameManager.Instance.sizeItemLv).ToString();
     }
 
     // 다음 레벨의 동물 정보 UI
     void InfoUpdate()
     {
-        int playerLv = GameManager.Instance.PlayerLv; // 현재 플레이어 레벨
-        if (playerLv <= 15) gameUI.InfoAniName.text = gameUI.AnimalName[playerLv]; // 다음 레벨의 동물 이름
+        int playerLv = GameManager.Instance.playerLv; // 현재 플레이어 레벨
+        if (playerLv <= 15) GameUI.infoAniName.text = GameUI.animalName[playerLv]; // 다음 레벨의 동물 이름
 
         // 남은 시간 텍스트
-        int CurTime = Mathf.RoundToInt(GameManager.Instance.CurTime);
-        gameUI.TimerText.text = TimerText(CurTime);
+        int CurTime = Mathf.RoundToInt(GameManager.Instance.curTime);
+        GameUI.timerText.text = TimerText(CurTime);
 
-        if (playerLv > 0) gameUI.ScoreText.text = GameManager.Instance.FormatNumber(GameManager.Instance.Score) + " / " + GameManager.Instance.FormatNumber(GameManager.Instance.goalScore[playerLv - 1]);
+        if (playerLv > 0) GameUI.scoreText.text = GameManager.Instance.FormatNumber(GameManager.Instance.curScore) + " / " + GameManager.Instance.FormatNumber(GameManager.Instance.goalScore[playerLv - 1]);
 
-        gameUI.LvText.text = GameManager.Instance.PlayerLv.ToString();
-        gameUI.AnimalText.text = GameManager.Instance.player.playerstat.Name;
+        GameUI.lvText.text = GameManager.Instance.playerLv.ToString();
+        GameUI.animalText.text = GameManager.Instance.Player.PlayerStat.name;
     }
 
 
@@ -140,15 +139,15 @@ public class UIManager : MonoBehaviour
         // 카운트다운 시작
         while (countdown > 0)
         {
-            gameUI.CountDownText.text = countdown.ToString();
+            GameUI.countdownText.text = countdown.ToString();
             yield return new WaitForSeconds(1);
-            gameUI.CountDownText.GetComponent<CountDown>().CountDownOn();
+            GameUI.countdownText.GetComponent<CountDown>().CountDownOn();
             countdown--;
         }
 
-        gameUI.CountDownText.text = "";
-        GameManager.Instance.player.PlayerStart = true;
-        spawnmanager.SpawnStart();
+        GameUI.countdownText.text = "";
+        GameManager.Instance.Player.isStart = true;
+        SpawnManager.SpawnStart();
     }
 
 
@@ -157,21 +156,21 @@ public class UIManager : MonoBehaviour
     // 게임 시작 버튼
     public void GameStartBt()
     {
-        SoundManager.Instance.SoundPlay("BtClick", mainUI.BtClick);
-        GameManager.Instance.IsStart = true;
+        SoundManager.Instance.SoundPlay("BtClick", MainUI.btClick);
+        GameManager.Instance.isStart = true;
         GameManager.Instance.PlayerIns();
 
-        mainUI.mainUI.SetActive(false);
-        gameUI.gameUI.SetActive(true);
+        MainUI.mainUI.SetActive(false);
+        GameUI.gameUI.SetActive(true);
 
-        GameManager.Instance.player.goalSlider = gameUI.GoalSlider;
+        GameManager.Instance.Player.goalSlider = GameUI.goalSlider;
         StartCoroutine(StartCountdown());
     }
 
     // 앱 종료
     public void GameQuitBt()
     {
-        SoundManager.Instance.SoundPlay("BtClick", mainUI.BtClick);
+        SoundManager.Instance.SoundPlay("BtClick", MainUI.btClick);
         GameManager.Instance.SaveCoin();
         Application.Quit();
     }
@@ -179,22 +178,22 @@ public class UIManager : MonoBehaviour
     // 메인메뉴 이동 버튼
     public void GoMainBt()
     {
-        SoundManager.Instance.SoundPlay("BtClick", mainUI.BtClick);
-        mainUI.mainUI.SetActive(true);
-        endUI.gameOverUI.SetActive(false);
-        endUI.gameClearUI.SetActive(false);
+        SoundManager.Instance.SoundPlay("BtClick", MainUI.btClick);
+        MainUI.mainUI.SetActive(true);
+        EndUI.gameOverUI.SetActive(false);
+        EndUI.gameClearUI.SetActive(false);
     }
 
     // 아이템 1번버튼 - 플레이어 공격력 증가
     public void ItemBt1()
     {
-        SoundManager.Instance.SoundPlay("ItemBuy", mainUI.BuySound);
-        int itemLv = GameManager.Instance.AttackItem1Lv;
-        int coin = GameManager.Instance.Coin;
+        SoundManager.Instance.SoundPlay("ItemBuy", MainUI.buySound);
+        int itemLv = GameManager.Instance.attackItemLv;
+        int coin = GameManager.Instance.coin;
         int price = ItemPrice * itemLv;
         if (price <= coin)
         {
-            GameManager.Instance.AttackItem1Lv++;
+            GameManager.Instance.attackItemLv++;
             GameManager.Instance.UseCoin(price);
         }
     }
@@ -202,13 +201,13 @@ public class UIManager : MonoBehaviour
     // 아이템 2번버튼 - 제한 시간 증가
     public void ItemBt2()
     {
-        SoundManager.Instance.SoundPlay("ItemBuy", mainUI.BuySound);
-        int itemLv = GameManager.Instance.TimeItem2Lv;
-        int coin = GameManager.Instance.Coin;
+        SoundManager.Instance.SoundPlay("ItemBuy", MainUI.buySound);
+        int itemLv = GameManager.Instance.timeItemLv;
+        int coin = GameManager.Instance.coin;
         int price = ItemPrice * itemLv;
         if (price <= coin)
         {
-            GameManager.Instance.TimeItem2Lv++;
+            GameManager.Instance.timeItemLv++;
             GameManager.Instance.UseCoin(price);
         }
     }
@@ -216,13 +215,13 @@ public class UIManager : MonoBehaviour
     // 아이템 3번버튼 - 플레이어 크기 증가
     public void ItemBt3()
     {
-        SoundManager.Instance.SoundPlay("ItemBuy", mainUI.BuySound);
-        int itemLv = GameManager.Instance.SizeItem3Lv;
-        int coin = GameManager.Instance.Coin;
+        SoundManager.Instance.SoundPlay("ItemBuy", MainUI.buySound);
+        int itemLv = GameManager.Instance.sizeItemLv;
+        int coin = GameManager.Instance.coin;
         int price = ItemPrice * itemLv;
         if (price <= coin)
         {
-            GameManager.Instance.SizeItem3Lv++;
+            GameManager.Instance.sizeItemLv++;
             GameManager.Instance.UseCoin(price);
         }
     }
@@ -230,14 +229,14 @@ public class UIManager : MonoBehaviour
     // 게임클리어 UI TEXT
     public void ClearUIUpdate(int Score, int Coin)
     {
-        endUI.ClearScore.text = "기록 : " + GameManager.Instance.FormatNumber(Score).ToString();
-        endUI.ClearCoin.text = "+" + GameManager.Instance.FormatNumber(Coin).ToString();
+        EndUI.clearScore.text = "기록 : " + GameManager.Instance.FormatNumber(Score).ToString();
+        EndUI.clearCoin.text = "+" + GameManager.Instance.FormatNumber(Coin).ToString();
     }
 
     // 게임오버 UI TEXT
     public void OverUIUpdate(int Score, int Coin)
     {
-        endUI.OverScore.text = "기록 : " + GameManager.Instance.FormatNumber(Score).ToString();
-        endUI.OverCoin.text = "+" + GameManager.Instance.FormatNumber(Coin).ToString();
+        EndUI.overScore.text = "기록 : " + GameManager.Instance.FormatNumber(Score).ToString();
+        EndUI.overCoin.text = "+" + GameManager.Instance.FormatNumber(Coin).ToString();
     }
 }
